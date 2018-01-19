@@ -222,30 +222,35 @@ type SomeOtherType {
 ```js
 const resolvers = {
   Query: {
-    async getComicAndTrivia(parent, args, ctx: Context, info) {
+    async comicAndTrivia(parent, args, ctx: Context, info) {
       const comic = await ctx.binding.query.latestComic({}, ctx)
       const { day, month } = comic
       const trivia = await ctx.binding.query.date({ date: `${month}/${day}` }, ctx)
       return { comic, trivia }
     },
-    async getTriviaAndOtherData(parent, args, ctx: Context, info) {
+    async triviaAndOtherData(parent, args, ctx: Context, info) {
       const trivia = await ctx.binding.query.trivia({ number: Math.round(Math.random()*100) }, ctx) 
       return {triviaContent: trivia.text}
+    },
+    debug(parent, args, ctx, info) {
+      console.log(info);
+      console.log(info.fieldNodes)
+      return 'Hello'
     }
   },
   TriviaAndOtherData: {
     anotherPublicField (parent, args, ctx: Context, info) {
-      const mockDataA = ctx.binding.query.MockA_data(null, ctx)
+      const mockDataA = ctx.binding.query.MockA_data({}, ctx)
       return mockDataA
     },
     yetAnotherPublicField (parent, args, ctx: Context, info) {
-      const mockDataB = ctx.binding.query.MockB_data(null, ctx)
+      const mockDataB = ctx.binding.query.MockB_data({}, ctx)
       return {someNestedField: mockDataB}
     },
   },
   SomeType: {
     someNestedFieldWithChildren (parent, args, ctx: Context, info) {
-      const mockDataC = ctx.binding.query.MockC_data(null, ctx)
+      const mockDataC = ctx.binding.query.MockC_data({}, ctx)
       return {childOfSomeNestedField: mockDataC}
     }
   }
