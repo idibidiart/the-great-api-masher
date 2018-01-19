@@ -1,0 +1,15 @@
+type Query {
+  trivia(number: Int): Numbers_Trivia
+  date(date: String): Numbers_Trivia
+  math(number: Int): Numbers_Trivia
+  year(number: Int): Numbers_Trivia
+}
+
+type Numbers_Trivia {
+  text: String
+  found: Boolean
+  number: Int
+  type: String
+  date: String
+  year: String
+}

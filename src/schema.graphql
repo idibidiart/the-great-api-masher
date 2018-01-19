@@ -1,0 +1,32 @@
+# Public Schema that remixes internal schemas of GrAMPS sources
+
+# See public schema resolver functions in index.ts
+
+# the following is not a comment; see graphql-import 
+# import XKCD_Comic, Numbers_Trivia from "./generated/gramps.graphql"
+
+type Query {
+  comicAndTrivia: ComicAndTrivia,
+  triviaAndOtherData: TriviaAndOtherData
+  debug: String
+}
+
+type ComicAndTrivia {
+  comic: XKCD_Comic # exposing type from XKCD source 
+  trivia: Numbers_Trivia # exposing type from Numbers source
+}
+
+type TriviaAndOtherData {
+  triviaContent: String, # resolved by Numbers source
+  anotherPublicField: String  # resolved by Mock A source
+  yetAnotherPublicField: SomeType
+}
+
+type SomeType {
+  someNestedField: String # resolved by Mock B source 
+  someNestedFieldWithChildren: SomeOtherType
+}
+
+type SomeOtherType {
+  childOfSomeNestedField: String # resolved by Mock C source resolver
+}

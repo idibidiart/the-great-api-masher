@@ -1,0 +1,51 @@
+type ComicAndTrivia {
+  comic: XKCD_Comic
+  trivia: Numbers_Trivia
+}
+
+type TriviaAndOtherData {
+  triviaContent: String
+  anotherPublicField: String
+  yetAnotherPublicField: SomeType
+}
+
+type SomeType {
+  someNestedField: String
+  someNestedFieldWithChildren: SomeOtherType
+}
+
+type SomeOtherType {
+  childOfSomeNestedField: String
+}
+
+type Query {
+  comicAndTrivia: ComicAndTrivia
+  triviaAndOtherData: TriviaAndOtherData
+  debug: String
+}
+
+type XKCD_Comic {
+  num: ID!
+  title: String!
+  safe_title: String!
+  """
+  Direct link to the comic image.
+  """
+  img: String!
+  alt: String!
+  transcript: String
+  year: String
+  month: String
+  day: String
+  link: String
+  news: String
+}
+
+type Numbers_Trivia {
+  text: String
+  found: Boolean
+  number: Int
+  type: String
+  date: String
+  year: String
+}

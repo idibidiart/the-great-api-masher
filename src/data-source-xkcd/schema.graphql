@@ -1,0 +1,21 @@
+type Query {
+  latestComic: XKCD_Comic
+  comic(
+    id: ID!
+  ): XKCD_Comic
+}
+
+type XKCD_Comic {
+  num: ID!
+  title: String!
+  safe_title: String!
+  # Direct link to the comic image.
+  img: String!
+  alt: String!
+  transcript: String
+  year: String
+  month: String
+  day: String
+  link: String
+  news: String
+}

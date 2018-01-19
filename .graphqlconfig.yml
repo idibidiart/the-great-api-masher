@@ -1,0 +1,13 @@
+projects:
+  app:
+    schemaPath: src/schema.graphql
+    extensions:
+      endpoints:
+        default: http://localhost:4000
+      prepare-bundle: src/generated/app.graphql
+  gramps:
+    schemaPath: src/generated/gramps.graphql
+    extensions:
+      prepare-binding: 
+        output: src/generated/gramps.ts
+        generator: binding-ts
