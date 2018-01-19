@@ -4,9 +4,11 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL, GrAMPS, GraphQL Bind
 
 Based on open source work by: 
 
-Jason Lengstorf (IBM, USA) author of GrAMPS (GraphQL Apollo Microservices Pattern Server)
+**Jason Lengstorf** (IBM, USA) author of GrAMPS (GraphQL Apollo Microservices Pattern Server)
 
-Kim Brandwijk (NL) author of graphql-static-binding and contributor to GraphQL Bindings & GraphQL Yoga
+**Kim Brandwijk** (NL) author of graphql-static-binding and contributor to GraphQL Bindings & GraphQL Yoga
+
+
 
 ## Examples of Existing REST APIs (and Mock APIs) and their GraphQL Schema
 
