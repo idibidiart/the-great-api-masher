@@ -249,39 +249,8 @@ const resolvers = {
 
 ```
 
-## Example Public Query Using the Remixed Public Schema
+## Example Public Query and its Output Using the Remixed Public Schema
 
-```js
-{
-  comicAndTrivia {
-    comic {
-      title
-    }
-    trivia {
-      text
-    }
-  }
-  triviaAndOtherData {
-    triviaContent
-    anotherPublicField 
-    yetAnotherPublicField {
-      someNestedField
-      someNestedFieldWithChildren {
-        childOfSomeNestedField
-      }
-    }
-  }
-}
-
-// output
-
-
-
-```
-
-
-
-
-![image]()
+![image](https://image.ibb.co/hKmHMm/Screen_Shot_2018_01_18_at_4_30_13_PM.png)
 
 
