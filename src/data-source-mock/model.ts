@@ -1,16 +1,29 @@
 import { GrampsError } from '@gramps/errors';
 import { GraphQLModel } from '@gramps/rest-helpers';
 
-export default class MockModelC extends GraphQLModel {
+export default class MockModel extends GraphQLModel {
   constructor({connector}) {
     super({connector});
   }
- 
   // see model.ts in XKCD or Numbers sources 
   // for how to write async fetch functions
-  getData() {
-    return Promise.resolve("this is test data from data source Mock C")
-  }  
+  getData(args) {
+    let fruitBasket = new Array(Math.round(Math.random() * 10))
+    // if this was a real API we'd send type to it
+    switch (args.type) {
+      case "Cherry": 
+        fruitBasket.fill({cherry: "🍒"})
+      break;
+      case "GreenApple": 
+        fruitBasket.fill({apple: "🍏"})
+      break;
+      default:
+        const set = [{cherry: "🍒 "},{apple: "🍏"}]
+        fruitBasket.fill(null).map((el) => set[Math.floor(set.length * Math.random())])    
+    }
+    return fruitBasket
+  }
+  
 
   /**
    * Throws a custom GrAMPS error.
@@ -21,7 +34,7 @@ export default class MockModelC extends GraphQLModel {
   throwError(
     {
       statusCode = 500,
-      message = 'Mock C API: Something went wrong.',
+      message = 'Mock API: Something went wrong.',
       targetEndpoint = null,
     },
     customErrorData = {},

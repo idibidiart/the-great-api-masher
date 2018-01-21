@@ -1,6 +1,14 @@
 import { Binding as BaseBinding, BindingOptions } from 'graphql-binding'
 import { GraphQLResolveInfo } from 'graphql'
 
+export interface Cherry {
+  cherry?: String
+}
+
+export interface GreenApple {
+  apple?: String
+}
+
 export interface Numbers_Trivia {
   text?: String
   found?: Boolean
@@ -45,6 +53,8 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 */
 export type String = string
 
+export type MixedFruit = Cherry | GreenApple
+
 export interface Schema {
   query: Query
 }
@@ -57,9 +67,9 @@ export type Query = {
   date: (args: { date?: String }, context: { [key: string]: any }, info?: GraphQLResolveInfo | string) => Promise<Numbers_Trivia | null>
   math: (args: { number?: Int }, context: { [key: string]: any }, info?: GraphQLResolveInfo | string) => Promise<Numbers_Trivia | null>
   year: (args: { number?: Int }, context: { [key: string]: any }, info?: GraphQLResolveInfo | string) => Promise<Numbers_Trivia | null>
-  MockA_data: (args: {}, context: { [key: string]: any }, info?: GraphQLResolveInfo | string) => Promise<String | null>
-  MockB_data: (args: {}, context: { [key: string]: any }, info?: GraphQLResolveInfo | string) => Promise<String | null>
-  MockC_data: (args: {}, context: { [key: string]: any }, info?: GraphQLResolveInfo | string) => Promise<String | null>
+  greenApple: (args: {}, context: { [key: string]: any }, info?: GraphQLResolveInfo | string) => Promise<GreenApple[] | null>
+  cherry: (args: {}, context: { [key: string]: any }, info?: GraphQLResolveInfo | string) => Promise<Cherry[] | null>
+  fruit: (args: {}, context: { [key: string]: any }, info?: GraphQLResolveInfo | string) => Promise<MixedFruit[] | null>
 }
 
 export class Binding extends BaseBinding {
@@ -76,8 +86,8 @@ export class Binding extends BaseBinding {
     date: (args, context, info): Promise<Numbers_Trivia | null> => super.delegate('query', 'date', args, context, info),
     math: (args, context, info): Promise<Numbers_Trivia | null> => super.delegate('query', 'math', args, context, info),
     year: (args, context, info): Promise<Numbers_Trivia | null> => super.delegate('query', 'year', args, context, info),
-    MockA_data: (args, context, info): Promise<String | null> => super.delegate('query', 'MockA_data', args, context, info),
-    MockB_data: (args, context, info): Promise<String | null> => super.delegate('query', 'MockB_data', args, context, info),
-    MockC_data: (args, context, info): Promise<String | null> => super.delegate('query', 'MockC_data', args, context, info)
+    greenApple: (args, context, info): Promise<GreenApple[] | null> => super.delegate('query', 'greenApple', args, context, info),
+    cherry: (args, context, info): Promise<Cherry[] | null> => super.delegate('query', 'cherry', args, context, info),
+    fruit: (args, context, info): Promise<MixedFruit[] | null> => super.delegate('query', 'fruit', args, context, info)
   }
 }

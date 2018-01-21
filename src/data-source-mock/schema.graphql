@@ -1,0 +1,18 @@
+type Query {
+  greenApple: [GreenApple]
+  cherry: [Cherry]
+  fruit: [MixedFruit]
+}
+
+type Cherry {
+  cherry: String
+}
+
+type GreenApple {
+  apple: String
+}
+
+union MixedFruit = Cherry | GreenApple
+
+
+

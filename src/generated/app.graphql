@@ -3,24 +3,22 @@ type ComicAndTrivia {
   trivia: Numbers_Trivia
 }
 
-type TriviaAndOtherData {
+type TriviaAndFruit {
   triviaContent: String
-  anotherPublicField: String
-  yetAnotherPublicField: SomeType
+  aBasketOfGreenApples: [GreenApple]
+  aBasketOfCherries: [Cherry]
+  aBasketOfMixedFruit: [MixedFruit]
+  legend: Legend
 }
 
-type SomeType {
-  someNestedField: String
-  someNestedFieldWithChildren: SomeOtherType
-}
-
-type SomeOtherType {
-  childOfSomeNestedField: String
+type Legend {
+  greenApple: String
+  cherry: String
 }
 
 type Query {
   comicAndTrivia: ComicAndTrivia
-  triviaAndOtherData: TriviaAndOtherData
+  triviaAndFruit: TriviaAndFruit
   debug: String
 }
 
@@ -49,3 +47,13 @@ type Numbers_Trivia {
   date: String
   year: String
 }
+
+type GreenApple {
+  apple: String
+}
+
+type Cherry {
+  cherry: String
+}
+
+union MixedFruit = Cherry | GreenApple

@@ -3,11 +3,11 @@
 # See public schema resolver functions in index.ts
 
 # the following is not a comment; see graphql-import 
-# import XKCD_Comic, Numbers_Trivia from "./generated/gramps.graphql"
+# import XKCD_Comic, Numbers_Trivia, GreenApple, Cherry, MixedFruit from "./generated/gramps.graphql"
 
 type Query {
   comicAndTrivia: ComicAndTrivia,
-  triviaAndOtherData: TriviaAndOtherData
+  triviaAndFruit: TriviaAndFruit
   debug: String
 }
 
@@ -16,17 +16,16 @@ type ComicAndTrivia {
   trivia: Numbers_Trivia # exposing type from Numbers source
 }
 
-type TriviaAndOtherData {
+type TriviaAndFruit {
   triviaContent: String, # resolved by Numbers source
-  anotherPublicField: String  # resolved by Mock A source
-  yetAnotherPublicField: SomeType
+  aBasketOfGreenApples: [GreenApple]  # resolved by Mock source
+  aBasketOfCherries: [Cherry] # resolved by Mock source
+  aBasketOfMixedFruit: [MixedFruit]
+  legend: Legend   
 }
 
-type SomeType {
-  someNestedField: String # resolved by Mock B source 
-  someNestedFieldWithChildren: SomeOtherType
+type Legend {
+  greenApple: String
+  cherry: String
 }
 
-type SomeOtherType {
-  childOfSomeNestedField: String # resolved by Mock C source resolver
-}

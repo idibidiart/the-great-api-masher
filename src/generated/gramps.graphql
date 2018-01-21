@@ -1,3 +1,13 @@
+type Cherry {
+  cherry: String
+}
+
+type GreenApple {
+  apple: String
+}
+
+union MixedFruit = Cherry | GreenApple
+
 type Numbers_Trivia {
   text: String
   found: Boolean
@@ -16,9 +26,9 @@ type Query {
   date(date: String): Numbers_Trivia
   math(number: Int): Numbers_Trivia
   year(number: Int): Numbers_Trivia
-  MockA_data: String
-  MockB_data: String
-  MockC_data: String
+  greenApple: [GreenApple]
+  cherry: [Cherry]
+  fruit: [MixedFruit]
 }
 
 type XKCD_Comic {

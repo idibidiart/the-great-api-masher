@@ -2,11 +2,15 @@ import { GraphQLServer } from 'graphql-yoga'
 import { prepare } from '@gramps/gramps'
 import XKCD from './data-source-xkcd'
 import Numbers from './data-source-numbers'
-import MockA from './data-source-mock-a'
-import MockB from './data-source-mock-b'
-import MockC from './data-source-mock-c'
+import Mock from './data-source-mock'
 import { Binding } from './generated/gramps'
 import { Context } from './utils'
+
+const fillRandom = () => {
+  let arr = new Array(Math.round(Math.random() * 10))
+  const set = [{cherry: "🍒 "},{apple: "🍏"}]
+  return arr.fill(null).map((el) => set[Math.floor(set.length * Math.random())]) 
+}
 
 // TODO: put resolvers in separate file for consistency with datasource folder structure
 const resolvers = {
@@ -17,7 +21,7 @@ const resolvers = {
       const trivia = await ctx.binding.query.date({ date: `${month}/${day}` }, ctx)
       return { comic, trivia }
     },
-    async triviaAndOtherData(parent, args, ctx: Context, info) {
+    async triviaAndFruit(parent, args, ctx: Context, info) {
       const trivia = await ctx.binding.query.trivia({ number: Math.round(Math.random()*100) }, ctx) 
       return {triviaContent: trivia.text}
     },
@@ -27,25 +31,35 @@ const resolvers = {
       return 'Hello'
     }
   },
-  TriviaAndOtherData: {
-    anotherPublicField (parent, args, ctx: Context, info) {
-      const mockDataA = ctx.binding.query.MockA_data({}, ctx)
-      return mockDataA
+  TriviaAndFruit: {
+    aBasketOfGreenApples (parent, args, ctx: Context, info) {
+      const mockData = ctx.binding.query.greenApple({}, ctx)
+      return mockData
     },
-    yetAnotherPublicField (parent, args, ctx: Context, info) {
-      const mockDataB = ctx.binding.query.MockB_data({}, ctx)
-      return {someNestedField: mockDataB}
+    aBasketOfCherries (parent, args, ctx: Context, info) {
+      const mockData = ctx.binding.query.cherry({}, ctx)
+      return mockData
     },
-  },
-  SomeType: {
-    someNestedFieldWithChildren (parent, args, ctx: Context, info) {
-      const mockDataC = ctx.binding.query.MockC_data({}, ctx)
-      return {childOfSomeNestedField: mockDataC}
+    aBasketOfMixedFruit (parent, args, ctx: Context, info) {
+      const mockData = fillRandom()
+      return mockData
+    },
+    legend (parent, args, ctx: Context, info) {
+      return {greenApple: "🍏", cherry: "🍒"}
     }
-  }
+  },  MixedFruit: {
+    __resolveType(obj) {
+        if (obj.cherry)  {
+            return "Cherry"
+        } else {
+            return "GreenApple"
+        }
+    }
 }
 
-const gramps = prepare({ dataSources: [XKCD, Numbers, MockA, MockB, MockC] })
+}
+
+const gramps = prepare({ dataSources: [XKCD, Numbers, Mock] })
 
 const server = new GraphQLServer({
   typeDefs: './src/generated/app.graphql',

@@ -6,8 +6,8 @@ import resolvers from './resolvers';
 const model = {model: new Model({ connector: new Connector() })}
 
 export default {
-  namespace: 'MockA',
+  namespace: 'Mock',
   context: model,
-  typeDefs: fs.readFileSync('./src/data-source-mock-a/schema.graphql', 'utf-8'),
+  typeDefs: fs.readFileSync('./src/data-source-mock/schema.graphql', 'utf-8'),
   resolvers
 };
