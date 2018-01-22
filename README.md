@@ -119,29 +119,66 @@ type Numbers_Trivia {
   }
 ```
 
-### Mock API (A, B and C)
+### Mock API 
 
 ```js
 
-// Using mock data source that returns a string; no external request
+// Using mock data source that returns (based on query params):
+// an array of GreenApple,
+// an array of Cherry
+// an an array of Union type of GreenApple and Cherry 
+//  
+// no external request
 
 // Internal GraphQL Schema for Mock API, manually constructed
 
 type Query {
-  # Generally, types should be prefixed with source name to avoid conflict
-  Mock[A|B|C]_data: String
+  greenApple: [GreenApple]
+  cherry: [Cherry]
+  fruit: [MixedFruit]
 }
 
-// GraphQL Resolvers for Mock API Schema
-
-Query: {
-    Mock[A|B|C]_data: (_, __, context) => context.model.getData()
+type Cherry {
+  cherry: String
 }
+
+type GreenApple {
+  apple: String
+}
+
+union MixedFruit = Cherry | GreenApple
+
+// Internal Resolvers for Mock API Schema
+
+  Query: {
+    greenApple: (parent, args, context) => model.getData({type: "GreenApple"}),
+    cherry: (parent, args, context) => model.getData({type: "Cherry"}),
+    fruit: (parent, args, context) => model.getData({}),
+  }, 
+  MixedFruit: {
+    __resolveType(obj) {
+        if (obj.cherry)  {
+            return "Cherry"
+        } else {
+            return "GreenApple"
+        }
+    }
+  }
 ```
 
 ## Example of Automatically Generated Internal MERGED Schema
 
 ```js
+type Cherry {
+  cherry: String
+}
+
+type GreenApple {
+  apple: String
+}
+
+union MixedFruit = Cherry | GreenApple
+
 type Numbers_Trivia {
   text: String
   found: Boolean
@@ -149,21 +186,6 @@ type Numbers_Trivia {
   type: String
   date: String
   year: String
-}
-
-type XKCD_Comic {
-  num: ID!
-  title: String!
-  safe_title: String!
-  """Direct link to the comic image."""
-  img: String!
-  alt: String!
-  transcript: String
-  year: String
-  month: String
-  day: String
-  link: String
-  news: String
 }
 
 type Query {
@@ -175,9 +197,25 @@ type Query {
   date(date: String): Numbers_Trivia
   math(number: Int): Numbers_Trivia
   year(number: Int): Numbers_Trivia
-  MockA_data: String
-  MockB_data: String
-  MockC_data: String
+  greenApple: [GreenApple]
+  cherry: [Cherry]
+  fruit: [MixedFruit]
+}
+
+type XKCD_Comic {
+  num: ID!
+  title: String!
+  safe_title: String!
+
+  """Direct link to the comic image."""
+  img: String!
+  alt: String!
+  transcript: String
+  year: String
+  month: String
+  day: String
+  link: String
+  news: String
 }
 ```
 
@@ -185,14 +223,13 @@ type Query {
 
 ```js
 
-# Public Schema that remixes internal schemas of GrAMPS sources
-
 # the following is not a comment; see graphql-import 
-# import XKCD_Comic, Numbers_Trivia from "./generated/gramps.graphql"
+# import XKCD_Comic, Numbers_Trivia, GreenApple, Cherry, MixedFruit from "./generated/gramps.graphql"
 
 type Query {
-  getComicAndTrivia: ComicAndTrivia,
-  getTriviaAndOtherData: TriviaAndOtherData
+  comicAndTrivia: ComicAndTrivia,
+  triviaAndFruit: TriviaAndFruit
+  debug: String
 }
 
 type ComicAndTrivia {
@@ -200,19 +237,17 @@ type ComicAndTrivia {
   trivia: Numbers_Trivia # exposing type from Numbers source
 }
 
-type TriviaAndOtherData {
+type TriviaAndFruit {
   triviaContent: String, # resolved by Numbers source
-  anotherPublicField: String  # resolved by Mock A source
-  yetAnotherPublicField: SomeType
+  aBasketOfGreenApples: [GreenApple]  # resolved by Mock source
+  aBasketOfCherries: [Cherry] # resolved by Mock source
+  aBasketOfMixedFruit: [MixedFruit] # resolved by Mock source
+  legend: Legend   
 }
 
-type SomeType {
-  someNestedField: String # resolved by Mock B source 
-  someNestedFieldWithChildren: SomeOtherType
-}
-
-type SomeOtherType {
-  childOfSomeNestedField: String # resolved by Mock C source resolver
+type Legend {
+  greenApple: String
+  cherry: String
 }
 
 ```
@@ -220,16 +255,16 @@ type SomeOtherType {
 ## Example of Public Resolvers for the Remixed Public Schema
 
 ```js
-const resolvers = {
+{
   Query: {
     async comicAndTrivia(parent, args, ctx: Context, info) {
-      const comic = await ctx.binding.query.latestComic({}, ctx)
+      const comic = await XKCDResolvers.Query.latestComic(parent, {}, ctx)
       const { day, month } = comic
-      const trivia = await ctx.binding.query.date({ date: `${month}/${day}` }, ctx)
+      const trivia = await NumbersResolvers.Query.date(parent, { date: `${month}/${day}` }, ctx)
       return { comic, trivia }
     },
-    async triviaAndOtherData(parent, args, ctx: Context, info) {
-      const trivia = await ctx.binding.query.trivia({ number: Math.round(Math.random()*100) }, ctx) 
+    async triviaAndFruit(parent, args, ctx: Context, info) {
+      const trivia = await NumbersResolvers.Query.trivia(parent, { number: Math.round(Math.random()*100) }, ctx) 
       return {triviaContent: trivia.text}
     },
     debug(parent, args, ctx, info) {
@@ -238,21 +273,24 @@ const resolvers = {
       return 'Hello'
     }
   },
-  TriviaAndOtherData: {
-    anotherPublicField (parent, args, ctx: Context, info) {
-      const mockDataA = ctx.binding.query.MockA_data({}, ctx)
-      return mockDataA
+  TriviaAndFruit: {
+    aBasketOfGreenApples (parent, args, ctx: Context, info) {
+      const mockData = MockResolvers.Query.greenApple(parent, {}, ctx)
+      return mockData
     },
-    yetAnotherPublicField (parent, args, ctx: Context, info) {
-      const mockDataB = ctx.binding.query.MockB_data({}, ctx)
-      return {someNestedField: mockDataB}
+    aBasketOfCherries (parent, args, ctx: Context, info) {
+      const mockData = MockResolvers.Query.cherry(parent, {}, ctx)
+      return mockData
     },
-  },
-  SomeType: {
-    someNestedFieldWithChildren (parent, args, ctx: Context, info) {
-      const mockDataC = ctx.binding.query.MockC_data({}, ctx)
-      return {childOfSomeNestedField: mockDataC}
+    aBasketOfMixedFruit (parent, args, ctx: Context, info) {
+      const mockData = MockResolvers.Query.fruit(parent, {}, ctx)
+      return mockData
+    },
+    legend (parent, args, ctx: Context, info) {
+      return {greenApple: "🍏", cherry: "🍒"}
     }
+  },  MixedFruit: {
+    __resolveType: MockResolvers.MixedFruit.__resolveType
   }
 }
 
@@ -260,6 +298,8 @@ const resolvers = {
 
 ## Example Public Query and its Output Using the Remixed Public Schema
 
-![image](https://image.ibb.co/hKmHMm/Screen_Shot_2018_01_18_at_4_30_13_PM.png)
+![image](https://image.ibb.co/kwoYib/Screen_Shot_2018_01_22_at_12_30_26_AM.png)
+
+![image](https://image.ibb.co/dGVDib/Screen_Shot_2018_01_22_at_12_30_57_AM.png)
 
 

@@ -20,7 +20,7 @@ type TriviaAndFruit {
   triviaContent: String, # resolved by Numbers source
   aBasketOfGreenApples: [GreenApple]  # resolved by Mock source
   aBasketOfCherries: [Cherry] # resolved by Mock source
-  aBasketOfMixedFruit: [MixedFruit]
+  aBasketOfMixedFruit: [MixedFruit] # resolved by Mock source
   legend: Legend   
 }
 
