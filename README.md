@@ -12,11 +12,15 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL, GrAMPS, GraphQL Bind
 
 - Enable joining of different GraphQL types (including queries and mutations) from the merged schema into new GraphQL types in product --and client-specific-- schema, with the goal providing a declarative, demand-driven API layer across the enterprise.
 
+The main benefit of the approach, besides getting rid of the data aggregation, derivation and shaping logic in the client, is to remove the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones just go away with GraphQL and this approach to remixing REST APIs.)  
+
 Based on open source work by: 
 
-[**Jason Lengstorf** (USA)](https://github.com/gramps-graphql/gramps) author of GrAMPS (GraphQL Apollo Microservices Pattern Server)
+[**Jason Lengstorf** (US)](https://github.com/gramps-graphql/gramps) author of GrAMPS (GraphQL Apollo Microservices Pattern Server)
 
 [**Kim Brandwijk** (NL)](https://github.com/kbrandwijk) author of graphql-static-binding and contributor to GraphQL Bindings & GraphQL Yoga
+
+[**Marc Fawzi** (US)](https://github.com/idibidiart/graffalo)
 
 ## Examples of Existing REST APIs (and Mock APIs) and their GraphQL Schema
 
