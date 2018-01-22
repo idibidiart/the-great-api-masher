@@ -20,7 +20,7 @@ Based on open source work by:
 
 [**Kim Brandwijk** (NL)](https://github.com/kbrandwijk) author of graphql-static-binding and contributor to GraphQL Bindings & GraphQL Yoga
 
-[**Marc Fawzi** (US)](https://github.com/idibidiart/graffalo)
+[**Marc Fawzi** (US)](https://github.com/idibidiart/graffalo) co-author GraffaloJS
 
 ## Examples of Existing REST APIs (and Mock APIs) and their GraphQL Schema
 
