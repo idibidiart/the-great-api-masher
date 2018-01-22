@@ -4,13 +4,19 @@ See [This](https://docs.google.com/document/d/1CzGScZ69VozocWmULRB-Kt4i8fxUUmC_x
 
 Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL, GrAMPS, GraphQL Bindings, and GraphQL Yoga.
 
+## TL;DR
+
+- Convert REST APIs into GraphQL data sources that can be shared amongst internal and/or external teams.
+
+- Enable automated merging of such sources into one GraphQL Schema that can be accessed by internal and/or external teams to build apps in more agile manner by using GraphQL's declarative nature to eliminate the need for imperative aggregation, derivation and shaping of data, which means the UI becomes a pure declarative I/O layer.
+
+- Enable joining of different GraphQL types (including queries and mutations) from the merged schema into new GraphQL types in product --and client-specific-- schema, with the goal providing a declarative, demand-driven API layer across the enterprise.
+
 Based on open source work by: 
 
-**Jason Lengstorf** (USA) author of GrAMPS (GraphQL Apollo Microservices Pattern Server)
+[**Jason Lengstorf** (USA)](https://github.com/gramps-graphql/gramps) author of GrAMPS (GraphQL Apollo Microservices Pattern Server)
 
-**Kim Brandwijk** (NL) author of graphql-static-binding and contributor to GraphQL Bindings & GraphQL Yoga
-
-
+[**Kim Brandwijk** (NL)](https://github.com/kbrandwijk) author of graphql-static-binding and contributor to GraphQL Bindings & GraphQL Yoga
 
 ## Examples of Existing REST APIs (and Mock APIs) and their GraphQL Schema
 

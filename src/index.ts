@@ -38,7 +38,6 @@ const resolvers = {
       resolve: async (parent, args, ctx: Context, info) => {
          const {day, month} = parent.comic
          const trivia = await NumbersResolvers.Query.date(parent, { date: `${month}/${day}` }, ctx)
-         console.log(999999, trivia)
          return trivia 
       }
     }
