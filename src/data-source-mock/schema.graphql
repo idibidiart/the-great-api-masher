@@ -13,6 +13,3 @@ type GreenApple {
 }
 
 union MixedFruit = Cherry | GreenApple
-
-
-

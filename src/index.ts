@@ -1,8 +1,11 @@
 import { GraphQLServer } from 'graphql-yoga'
 import { prepare } from '@gramps/gramps'
 import XKCD from './data-source-xkcd'
+import XKCDResolvers from './data-source-xkcd/resolvers'
 import Numbers from './data-source-numbers'
+import NumbersResolvers from './data-source-numbers/resolvers'
 import Mock from './data-source-mock'
+import MockResolvers from './data-source-mock/resolvers'
 import { Binding } from './generated/gramps'
 import { Context } from './utils'
 
@@ -16,13 +19,13 @@ const fillRandom = () => {
 const resolvers = {
   Query: {
     async comicAndTrivia(parent, args, ctx: Context, info) {
-      const comic = await ctx.binding.query.latestComic({}, ctx)
+      const comic = await XKCDResolvers.Query.latestComic(parent, {}, ctx)
       const { day, month } = comic
-      const trivia = await ctx.binding.query.date({ date: `${month}/${day}` }, ctx)
+      const trivia = await NumbersResolvers.Query.date(parent, { date: `${month}/${day}` }, ctx)
       return { comic, trivia }
     },
     async triviaAndFruit(parent, args, ctx: Context, info) {
-      const trivia = await ctx.binding.query.trivia({ number: Math.round(Math.random()*100) }, ctx) 
+      const trivia = await NumbersResolvers.Query.trivia(parent, { number: Math.round(Math.random()*100) }, ctx) 
       return {triviaContent: trivia.text}
     },
     debug(parent, args, ctx, info) {
@@ -33,29 +36,23 @@ const resolvers = {
   },
   TriviaAndFruit: {
     aBasketOfGreenApples (parent, args, ctx: Context, info) {
-      const mockData = ctx.binding.query.greenApple({}, ctx)
+      const mockData = MockResolvers.Query.greenApple(parent, {}, ctx)
       return mockData
     },
     aBasketOfCherries (parent, args, ctx: Context, info) {
-      const mockData = ctx.binding.query.cherry({}, ctx)
+      const mockData = MockResolvers.Query.cherry(parent, {}, ctx)
       return mockData
     },
     aBasketOfMixedFruit (parent, args, ctx: Context, info) {
-      const mockData = fillRandom()
+      const mockData = MockResolvers.Query.fruit(parent, {}, ctx)
       return mockData
     },
     legend (parent, args, ctx: Context, info) {
       return {greenApple: "🍏", cherry: "🍒"}
     }
   },  MixedFruit: {
-    __resolveType(obj) {
-        if (obj.cherry)  {
-            return "Cherry"
-        } else {
-            return "GreenApple"
-        }
-    }
-}
+    __resolveType: MockResolvers.MixedFruit.__resolveType
+  }
 
 }
 

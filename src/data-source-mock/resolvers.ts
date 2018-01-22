@@ -1,9 +1,14 @@
+import Model from './model'
+import Connector from './connector';
+
+const model = new Model({ connector: new Connector() })
+
 export default {
   Query: {
-    greenApple: (_, __, context) => context.model.getData({type: "GreenApple"}),
-    cherry: (_, __, context) => context.model.getData({type: "Cherry"}),
-    fruit: (_, __, context) => context.model.getData({}),
-  },
+    greenApple: (parent, args, context) => model.getData({type: "GreenApple"}),
+    cherry: (parent, args, context) => model.getData({type: "Cherry"}),
+    fruit: (parent, args, context) => model.getData({}),
+  }, 
   MixedFruit: {
     __resolveType(obj) {
         if (obj.cherry)  {

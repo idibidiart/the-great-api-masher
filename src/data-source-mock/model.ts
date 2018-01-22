@@ -9,7 +9,6 @@ export default class MockModel extends GraphQLModel {
   // for how to write async fetch functions
   getData(args) {
     let fruitBasket = new Array(Math.round(Math.random() * 10))
-    // if this was a real API we'd send type to it
     switch (args.type) {
       case "Cherry": 
         fruitBasket.fill({cherry: "🍒"})
@@ -19,9 +18,9 @@ export default class MockModel extends GraphQLModel {
       break;
       default:
         const set = [{cherry: "🍒 "},{apple: "🍏"}]
-        fruitBasket.fill(null).map((el) => set[Math.floor(set.length * Math.random())])    
+        fruitBasket = fruitBasket.fill(null).map((el) => set[Math.floor(set.length * Math.random())])    
     }
-    return fruitBasket
+    return Promise.resolve(fruitBasket)
   }
   
 
