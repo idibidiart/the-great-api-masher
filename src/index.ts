@@ -20,9 +20,7 @@ const resolvers = {
   Query: {
     async comicAndTrivia(parent, args, ctx: Context, info) {
       const comic = await XKCDResolvers.Query.latestComic(parent, {}, ctx)
-      const { day, month } = comic
-      const trivia = await NumbersResolvers.Query.date(parent, { date: `${month}/${day}` }, ctx)
-      return { comic, trivia }
+      return { comic }
     },
     async triviaAndFruit(parent, args, ctx: Context, info) {
       const trivia = await NumbersResolvers.Query.trivia(parent, { number: Math.round(Math.random()*100) }, ctx) 
@@ -32,6 +30,17 @@ const resolvers = {
       console.log(info);
       console.log(info.fieldNodes)
       return 'Hello'
+    }
+  },
+  ComicAndTrivia: {
+    trivia: {
+      fragment: `fragment ComicFragment on ComicAndTrivia { comic { day month } }`,
+      resolve: async (parent, args, ctx: Context, info) => {
+         const {day, month} = parent.comic
+         const trivia = await NumbersResolvers.Query.date(parent, { date: `${month}/${day}` }, ctx)
+         console.log(999999, trivia)
+         return trivia 
+      }
     }
   },
   TriviaAndFruit: {
@@ -53,7 +62,6 @@ const resolvers = {
   },  MixedFruit: {
     __resolveType: MockResolvers.MixedFruit.__resolveType
   }
-
 }
 
 const gramps = prepare({ dataSources: [XKCD, Numbers, Mock] })
