@@ -10,7 +10,7 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL, GrAMPS, GraphQL Bind
 
 - Enable automated merging of such sources into one GraphQL Schema that can be accessed by internal and/or external teams to build apps in more agile manner by using GraphQL's declarative nature to eliminate the need for imperative aggregation, derivation and shaping of data, which means the UI becomes a pure declarative I/O layer.
 
-- Enable joining of different GraphQL types (including queries and mutations) from the merged schema into new GraphQL types in product --and client-specific-- schema, with the goal providing a declarative, demand-driven API layer across the enterprise.
+- Enable remixing of GraphQL types (including queries and mutations) from the merged schema into new GraphQL types to produce application specific schema, with the goal providing a demand-driven API layer across the enterprise.
 
 The main benefit of the approach, besides getting rid of the data aggregation, derivation and shaping logic in the client, is to remove the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones just go away with GraphQL and this approach to remixing REST APIs.)  
 
