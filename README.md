@@ -326,7 +326,7 @@ type Legend {
 
 ## Example Public Query and its Output Using the Remixed Public Schema
 
-![image](https://image.ibb.co/kwoYib/Screen_Shot_2018_01_22_at_12_30_26_AM.png)
+![image](https://image.ibb.co/bEmebw/Screen_Shot_2018_01_23_at_7_50_21_AM.png)
 
 ![image](https://image.ibb.co/dGVDib/Screen_Shot_2018_01_22_at_12_30_57_AM.png)
 
