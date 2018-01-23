@@ -32,11 +32,11 @@ const resolvers = {
       return 'Hello'
     }
   },
-  // advanced: special field level resolver that gets its data implicitly from  
-  // another type, via destructuring 
+  // advanced: special field level resolver that gets its data at runtime from  
+  // the output of another type in the query, via destructuring 
   ComicAndTrivia: {
     trivia: {
-      /* define type and data that this field depends on, using fragment */
+      /* define type and dynamic data that this field depends on, using fragment */
       fragment: `fragment ComicFragment on ComicAndTrivia { comic { day month } }`,
       resolve: async (parent, args, ctx: Context, info) => {
          const {day, month} = parent.comic

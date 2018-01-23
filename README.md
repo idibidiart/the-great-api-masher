@@ -285,7 +285,7 @@ type Legend {
       return 'Hello'
     }
   },
-  // advanced: special field level resolver that gets its data at run time from  
+  // advanced: special field level resolver that gets its data at runtime from  
   // the output of another type in the query, via destructuring 
   ComicAndTrivia: {
     trivia: {
