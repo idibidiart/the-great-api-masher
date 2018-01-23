@@ -163,8 +163,11 @@ union MixedFruit = Cherry | GreenApple
   Query: {
     greenApple: (parent, args, context) => model.getData({type: "GreenApple"}),
     cherry: (parent, args, context) => model.getData({type: "Cherry"}),
-    fruit: (parent, args, context) => model.getData({}),
+    fruit: (parent, args, context) => model.getData({}), // returns Union of both types
   }, 
+  // GraphQL must be able to distinguish GreenApple from Cherry in MixedFruit
+  // which is a Union of types (i.e. the actual type is not fixed at design time) 
+  // We do this with __resolveType
   MixedFruit: {
     __resolveType(obj) {
         if (obj.cherry)  {
@@ -310,10 +313,9 @@ type Legend {
     legend (parent, args, ctx: Context, info) {
       return {greenApple: "🍏", cherry: "🍒"}
     }
-  },  
-  // GraphQL must be able to distinguish GreenApple from Cherry in MixedFruit
-  // which is a Union of types (i.e. the actual type is not fixed at design time) 
-  // We do this by referencing the __resolveType in the Mock data source resolvers 
+  },   
+  // referencing __resolveType in the Mock data source resolvers
+  // see resolvers for Mock data source 
   MixedFruit: {
     __resolveType: MockResolvers.MixedFruit.__resolveType
   }
