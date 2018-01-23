@@ -8,11 +8,12 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL, GrAMPS, GraphQL Bind
 
 - Convert REST APIs into GraphQL data sources that can be shared amongst internal and/or external teams.
 
-- Enable automated merging of such sources into one GraphQL Schema that can be accessed by internal and/or external teams to build apps in more agile manner by using GraphQL’s declarative nature.. 
+- Enable automatic merging of such sources into one GraphQL Schema that can be accessed by internal and/or external teams to build apps in agile manner by using GraphQL’s declarative nature.
 
-- Enable remixing of GraphQL types (including queries and mutations) from the merged schema into new GraphQL types to produce application specific schema, with the goal providing a demand-driven API layer across the enterprise. This  entirely removes the need for imperative data aggregation, derivation and shaping. This means the UI becomes a pure projection of app state on the server, and a thin I/O layer
+- Enable remixing of the GraphQL types (including queries and mutations) from the merged schema into new GraphQL types to produce application --or client-- specific schema. This includes the ability to declaratively filter, compose and pipe the output from one or more queries into other queries/mutations (and do so between the parts of a single query)  In essence, it allows us to use GraphQL as a declarative schema-centered, data-flow programming environment, which removes the need for imperatively coding data-flow logic in the mid-tier and/or (as is often the case) in the UI. This means the UI is guaranteed to be a pure projection of app state on the server, and a thin I/O layer. 
 
-__The main benefit of the approach, besides getting rid of the data aggregation, derivation and shaping logic in the client, is to remove the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones just go away with GraphQL and this approach to remixing REST APIs.)__
+__The main benefit of the approach, besides getting rid of the data-flow logic in the UI is to remove the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones just go away with GraphQL and this approach to remixing REST APIs)__
+
 
 Based on open source work by: 
 
