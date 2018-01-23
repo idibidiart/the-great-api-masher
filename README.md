@@ -68,14 +68,14 @@ type XKCD_Comic {
 
 // Internal GraphQL Resolvers for XKCD Schema
 
-Query: {
-    latestComic: (_, __, context) => context.model.getLatestComic(),
-    comic: (_, { id }, context) => context.model.getComicById(id),
-},
-XKCD_Comic: {
-    // The link is often empty, so build one if it’s not returned.
-    link: data => data.link || `https://xkcd.com/${data.num}/`,
-},
+    Query: {
+      latestComic: (parent, args, context) => model.getLatestComic(),
+      comic: (parent, { id }, context) => model.getComicById(id),
+    },
+    XKCD_Comic: {
+      // The link is often empty, so build one if it’s not returned.
+      link: data => data.link || `https://xkcd.com/${data.num}/`,
+    }
 ```
 
 ### Numbers Trivia API
@@ -118,10 +118,10 @@ type Numbers_Trivia {
 // Internal Resolvers for Numbers Trivia Schema
 
   Query: {
-    trivia: (_, { number }, context) => context.model.getNumbers(number, 'trivia'),
-    date: (_, { date }, context) => context.model.getNumbers(date, 'date'),
-    math: (_, { number }, context) => context.model.getNumbers(number, 'math'),
-    year: (_, { number }, context) => context.model.getNumbers(number, 'year'),
+    trivia: (parent, { number }, context) => model.getNumbers(number, 'trivia'),
+    date: (parent, { date }, context) => model.getNumbers(date, 'date'),
+    math: (parent, { number }, context) => model.getNumbers(number, 'math'),
+    year: (parent, { number }, context) => model.getNumbers(number, 'year'),
   },
   Numbers_Trivia: {
     date: data => data.date || null, /* have to be explicit if it might be missing */
@@ -269,9 +269,7 @@ type Legend {
   Query: {
     async comicAndTrivia(parent, args, ctx: Context, info) {
       const comic = await XKCDResolvers.Query.latestComic(parent, {}, ctx)
-      const { day, month } = comic
-      const trivia = await NumbersResolvers.Query.date(parent, { date: `${month}/${day}` }, ctx)
-      return { comic, trivia }
+      return { comic }
     },
     async triviaAndFruit(parent, args, ctx: Context, info) {
       const trivia = await NumbersResolvers.Query.trivia(parent, { number: Math.round(Math.random()*100) }, ctx) 
@@ -281,6 +279,19 @@ type Legend {
       console.log(info);
       console.log(info.fieldNodes)
       return 'Hello'
+    }
+  },
+  // advanced: special field level resolver that gets its data implicitly from  
+  // another type, via destructuring 
+  ComicAndTrivia: {
+    trivia: {
+      /* define type and data that this field depends on, using fragment */
+      fragment: `fragment ComicFragment on ComicAndTrivia { comic { day month } }`,
+      resolve: async (parent, args, ctx: Context, info) => {
+         const {day, month} = parent.comic
+         const trivia = await NumbersResolvers.Query.date(parent, { date: `${month}/${day}` }, ctx)
+         return trivia 
+      }
     }
   },
   TriviaAndFruit: {
