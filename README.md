@@ -310,7 +310,11 @@ type Legend {
     legend (parent, args, ctx: Context, info) {
       return {greenApple: "🍏", cherry: "🍒"}
     }
-  },  MixedFruit: {
+  },  
+  // GraphQL must be able to distinguish GreenApple from Cherry in MixedFruit
+  // which is a Union of types (i.e. the actual type is not fixed at design time) 
+  // We do this by referencing the __resolveType in the Mock data source resolvers 
+  MixedFruit: {
     __resolveType: MockResolvers.MixedFruit.__resolveType
   }
 }
