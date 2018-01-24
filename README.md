@@ -1,6 +1,8 @@
 # The Great API Masher
 
-See [This](https://docs.google.com/document/d/1CzGScZ69VozocWmULRB-Kt4i8fxUUmC_xooYq9ZZPAs/edit?usp=sharing) for background.
+See [this](https://docs.google.com/document/d/1CzGScZ69VozocWmULRB-Kt4i8fxUUmC_xooYq9ZZPAs/edit?usp=sharing) doc for background.
+
+See [Informal Presentation](https://www.youtube.com/watch?v=7Od7ioOae70&t=3s) 
 
 Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL, GrAMPS, GraphQL Bindings, and GraphQL Yoga.
 
