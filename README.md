@@ -14,6 +14,13 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL, GrAMPS, GraphQL Bind
 
 __The main benefit of the approach, besides getting rid of the data-flow code in the UI is to remove the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
 
+## Visual TL;DR
+
+All of the Data Flow functionality can be implemented using the declarative GraphQL approach described in this document and as demonstrated in the POC. Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. 
+
+![image](https://image.ibb.co/bMaaYb/Untitled_Diagram_43.png)
+
+
 Based on open source work by: 
 
 [**Jason Lengstorf** (US)](https://github.com/gramps-graphql/gramps) author of GrAMPS (GraphQL Apollo Microservices Pattern Server)
