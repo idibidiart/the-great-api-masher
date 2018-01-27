@@ -6,6 +6,12 @@ See [Informal Presentation](https://www.youtube.com/watch?v=7Od7ioOae70&t=3s)
 
 Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL, GrAMPS, GraphQL Bindings, and GraphQL Yoga.
 
+## Visual TL;DR
+
+All of the Data Flow functionality can be implemented using the declarative GraphQL approach described in this document and as demonstrated in the POC. Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. 
+
+![image](https://image.ibb.co/bMaaYb/Untitled_Diagram_43.png)
+
 ## TL;DR
 
 - Convert REST APIs into GraphQL data sources that can be shared amongst internal and/or external teams.
@@ -15,13 +21,6 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL, GrAMPS, GraphQL Bind
 - Enable remixing of the GraphQL types (including queries and mutations) from the merged schema into new GraphQL types to produce application --or client-- specific schema. This includes the ability to declaratively filter, compose and pipe the output from one or more fields into other field in the query. In essence, it allows us to use GraphQL as a declarative, schema-centered, data-flow programming environment, which removes the need for imperatively coding data flow in the mid-tier and/or (as is often the case) in the UI. This means the UI is guaranteed to be a pure projection of app state on the server, and a thin I/O layer. 
 
 __The main benefit of the approach, besides getting rid of the data-flow code in the UI is to remove the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
-
-## Visual TL;DR
-
-All of the Data Flow functionality can be implemented using the declarative GraphQL approach described in this document and as demonstrated in the POC. Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. 
-
-![image](https://image.ibb.co/bMaaYb/Untitled_Diagram_43.png)
-
 
 Based on open source work by: 
 
