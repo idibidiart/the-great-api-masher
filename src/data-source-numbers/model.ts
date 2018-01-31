@@ -1,5 +1,5 @@
-import { GrampsError } from '@gramps/errors';
-import { GraphQLModel } from '@gramps/rest-helpers';
+
+import { GraphQLModel } from 'graphql-rest-helpers';
 
 export default class NumbersModel extends GraphQLModel {
   constructor({connector}) {
@@ -9,38 +9,29 @@ export default class NumbersModel extends GraphQLModel {
   async getNumbers(input, type) {
     return this.connector.get(`/${input}/${type}`)
       .then((res) => {
+        // workaround for Promise.all use by Dataloader
+        if (res.error) {
+          throw(res)
+        }
         console.log("Numbers API output for getNumbers with input", input, "type", type, res)
         return res
       })
-      .catch(res =>
-        this.throwError(res.error, {
-          description: 'Numbers API: Could not get the info',
-        }),
+      .catch(res => {
+        this.throwError(res, {
+          data: { input, type }
+        })
+      }
     );
   }  
 
-  /**
-   * Throws a custom GrAMPS error.
-   * @param  {Object}  error            the API error
-   * @param  {Object?} customErrorData  additional error data to display
-   * @return {void}
-   */
   throwError(
-    {
-      statusCode = 500,
-      message = 'Numbers API: Something went wrong.',
-      targetEndpoint = null,
-    },
-    customErrorData = {},
-  ) {
-    const defaults = {
-      statusCode,
-      targetEndpoint,
-      errorCode: `${this.constructor.name}_Error`,
-      description: message,
-      graphqlModel: this.constructor.name
-    };
-
-    throw GrampsError(Object.assign({defaults}, {customErrorData}));
+    res,
+    {data},
+  ) { 
+    const err = `message: ${res.message}
+    uri: ${res.options.uri}
+    code: ${res.error.code}
+    data: ${JSON.stringify(data)}`
+    throw new Error(err)
   }
 }

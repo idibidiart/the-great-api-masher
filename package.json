@@ -6,10 +6,9 @@
     "build": "graphql prepare"
   },
   "dependencies": {
-    "@gramps/errors": "^1.0.1",
     "@gramps/gramps": "^1.2.0",
-    "@gramps/rest-helpers": "^1.0.0",
     "graphql-binding": "1.2.0",
+    "graphql-rest-helpers": "^0.0.6",
     "graphql-yoga": "1.1.5"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import { GraphQLConnector } from '@gramps/rest-helpers';
+import { GraphQLConnector } from 'graphql-rest-helpers';
 
 export default class NumbersConnector extends GraphQLConnector {
   constructor() {
