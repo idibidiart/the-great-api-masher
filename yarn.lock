@@ -1022,9 +1022,9 @@ graphql-request@^1.4.0:
   dependencies:
     cross-fetch "1.1.1"
 
-graphql-rest-helpers@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/graphql-rest-helpers/-/graphql-rest-helpers-0.0.6.tgz#65e3b53f76917ee9035edd7173ecaefed5ddc48e"
+graphql-rest-helpers@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/graphql-rest-helpers/-/graphql-rest-helpers-0.0.7.tgz#ff6d45849b7a1e9770022d9e342ef9bccc7e8b71"
   dependencies:
     dataloader "^1.3.0"
     request "^2.83.0"
