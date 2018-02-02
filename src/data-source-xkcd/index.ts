@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import Model from './model';
 import resolvers from './resolvers';
 
 export default {

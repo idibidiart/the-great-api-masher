@@ -4,7 +4,7 @@ See [this](https://docs.google.com/document/d/1CzGScZ69VozocWmULRB-Kt4i8fxUUmC_x
 
 See [Informal Presentation](https://www.youtube.com/watch?v=7Od7ioOae70&t=3s) 
 
-Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL, GrAMPS, GraphQL Bindings, and GraphQL Yoga.
+Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL and GrAMPS
 
 ## Visual TL;DR
 
@@ -21,14 +21,6 @@ All of the Data Flow functionality can be implemented using the declarative Grap
 - Enable remixing of the GraphQL types (including queries and mutations) from the merged schema into new GraphQL types to produce application --or client-- specific schema. This includes the ability to declaratively filter, compose and pipe the output from one or more fields into other field in the query. In essence, it allows us to use GraphQL as a declarative, schema-centered, data-flow programming environment, which removes the need for imperatively coding data flow in the mid-tier and/or (as is often the case) in the UI. This means the UI is guaranteed to be a pure projection of app state on the server, and a thin I/O layer. 
 
 __The main benefit of the approach, besides getting rid of the data-flow code in the UI is to remove the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
-
-Based on open source work by: 
-
-[**Jason Lengstorf** (US)](https://github.com/gramps-graphql/gramps) author of GrAMPS (GraphQL Apollo Microservices Pattern Server)
-
-[**Kim Brandwijk** (NL)](https://github.com/kbrandwijk) author of graphql-static-binding and contributor to GraphQL Bindings & GraphQL Yoga
-
-[**Marc Fawzi** (US)](https://github.com/idibidiart/graffalo) co-author [GraffaloJS](https://github.com/idibidiart/graffalo)
 
 ## Examples of Existing REST APIs (and Mock APIs) and their GraphQL Schema
 

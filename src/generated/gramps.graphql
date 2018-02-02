@@ -29,6 +29,16 @@ type Query {
   greenApple: [GreenApple]
   cherry: [Cherry]
   fruit: [MixedFruit]
+  someQuery: SomeType
+}
+
+type SomeOtherType {
+  test: String
+}
+
+type SomeType {
+  abc: String
+  xyz: SomeOtherType
 }
 
 type XKCD_Comic {

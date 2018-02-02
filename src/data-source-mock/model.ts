@@ -6,7 +6,7 @@ export default class MockModel extends GraphQLModel {
   }
   // see model.ts in XKCD or Numbers sources 
   // for how to write async fetch functions and error handling
-  getData(args) {
+  getFruit(args) {
     let fruitBasket = new Array(Math.round(Math.random() * 10))
     switch (args.type) {
       case "Cherry": 
@@ -20,6 +20,14 @@ export default class MockModel extends GraphQLModel {
         fruitBasket = fruitBasket.fill(null).map((el) => set[Math.floor(set.length * Math.random())])    
     }
     return Promise.resolve(fruitBasket)
+  }
+
+  getSomeData(args) {
+    return Promise.resolve({abc: "some string"})
+  }
+
+  getSomeOtherData(args) {
+    return Promise.resolve({test: "this should work...! (bug)"})
   }
   
 }

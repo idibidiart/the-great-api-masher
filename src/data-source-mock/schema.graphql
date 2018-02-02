@@ -2,6 +2,16 @@ type Query {
   greenApple: [GreenApple]
   cherry: [Cherry]
   fruit: [MixedFruit]
+  someQuery: SomeType
+}
+
+type SomeType {
+  abc: String
+  xyz: SomeOtherType
+}
+
+type SomeOtherType {
+  test: String
 }
 
 type Cherry {

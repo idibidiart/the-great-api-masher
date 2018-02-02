@@ -19,7 +19,13 @@ type Legend {
 type Query {
   comicAndTrivia: ComicAndTrivia
   triviaAndFruit: TriviaAndFruit
+  someQuery: SomeType
   debug: String
+}
+
+type SomeType {
+  abc: String
+  xyz: SomeOtherType
 }
 
 type XKCD_Comic {
@@ -57,3 +63,7 @@ type Cherry {
 }
 
 union MixedFruit = Cherry | GreenApple
+
+type SomeOtherType {
+  test: String
+}

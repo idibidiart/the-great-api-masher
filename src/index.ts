@@ -6,8 +6,9 @@ import Numbers from './data-source-numbers'
 import NumbersResolvers from './data-source-numbers/resolvers'
 import Mock from './data-source-mock'
 import MockResolvers from './data-source-mock/resolvers'
-import { Binding } from './generated/gramps'
 import { Context } from './utils'
+
+const util = require('util')
 
 const fillRandom = () => {
   let arr = new Array(Math.round(Math.random() * 10))
@@ -26,6 +27,10 @@ const resolvers = {
       const trivia = await NumbersResolvers.Query.trivia(parent, { number: Math.round(Math.random()*100) }, ctx) 
       return {triviaContent: trivia.text}
     },
+    someQuery (parent, args, ctx: Context, info) {
+      const mockData = MockResolvers.Query.someQuery(parent, {}, ctx)
+      return mockData
+    },
     debug(parent, args, ctx, info) {
       console.log(info);
       console.log(info.fieldNodes)
@@ -43,6 +48,12 @@ const resolvers = {
          const trivia = await NumbersResolvers.Query.date(parent, { date: `${month}/${day}` }, ctx)
          return trivia 
       }
+    }
+  },
+  SomeType: {
+    xyz (parent, args, ctx: Context, info) {
+      const mockData = MockResolvers.SomeType.xyz(parent, args, ctx)
+      return mockData
     }
   },
   TriviaAndFruit: {
@@ -77,8 +88,7 @@ const server = new GraphQLServer({
   resolvers,
   context: req => ({
     ...req,
-    ...gramps.context(req),
-    binding: new Binding({ schema: gramps.schema }),
+    ...gramps.context(req)
   }),
 })
 

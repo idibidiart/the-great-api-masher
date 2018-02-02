@@ -1,6 +1,4 @@
 import * as fs from 'fs';
-import Connector from './connector';
-import Model from './model';
 import resolvers from './resolvers';
 
 export default {
