@@ -37,7 +37,7 @@ export default class XKCDModel extends GraphQLModel {
   async getComicById(id) {
     return this.connector.get(`/${id}/info.0.json`)
       .then((res) => {
-        // workaround for Promise.all use by Dataloader
+        // workaround for Promise.all used for Dataloader
         if (res.error) {
           throw(res)
         }

@@ -9,7 +9,7 @@ export default class NumbersModel extends GraphQLModel {
   async getNumbers(input, type) {
     return this.connector.get(`/${input}/${type}`)
       .then((res) => {
-        // workaround for Promise.all use by Dataloader
+        // workaround for Promise.all used for Dataloader
         if (res.error) {
           throw(res)
         }

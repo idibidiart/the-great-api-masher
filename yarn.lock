@@ -58,8 +58,8 @@
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.11.8.tgz#53ff3604e99db810dd43347f19fcd1c59725a7bb"
 
 "@types/lodash@^4.14.85":
-  version "4.14.98"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.98.tgz#aaf012ae443e657e7885e605a4c1b340db160609"
+  version "4.14.100"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.100.tgz#f353dd9d3a9785638b6cb8023e6639097bd31969"
 
 "@types/mime@*":
   version "2.0.0"
@@ -492,8 +492,8 @@ dashdash@^1.12.0:
     assert-plus "^1.0.0"
 
 dataloader@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/dataloader/-/dataloader-1.3.0.tgz#6fec5be4b30a712e4afd30b86b4334566b97673b"
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/dataloader/-/dataloader-1.4.0.tgz#bca11d867f5d3f1b9ed9f737bd15970c65dff5c8"
 
 debug@2.6.9, debug@^2.1.1, debug@^2.2.0:
   version "2.6.9"
@@ -999,8 +999,8 @@ graphql-playground-html@1.4.3:
     graphql-config-extension-graphcool "1.0.4"
 
 graphql-playground-html@^1.3.6:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/graphql-playground-html/-/graphql-playground-html-1.5.2.tgz#ccd97ac1960cfb1872b314bafb1957e7a6df7984"
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/graphql-playground-html/-/graphql-playground-html-1.5.4.tgz#82752ec4ee36c62d64ccebf7d3ca47477c213bb6"
   dependencies:
     graphql-config "1.1.7"
 
@@ -1022,9 +1022,9 @@ graphql-request@^1.4.0:
   dependencies:
     cross-fetch "1.1.1"
 
-graphql-rest-helpers@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/graphql-rest-helpers/-/graphql-rest-helpers-0.0.7.tgz#ff6d45849b7a1e9770022d9e342ef9bccc7e8b71"
+graphql-rest-helpers@^0.0.91:
+  version "0.0.91"
+  resolved "https://registry.yarnpkg.com/graphql-rest-helpers/-/graphql-rest-helpers-0.0.91.tgz#66985b7fee5e168f9511ecb63895aa32b9814b45"
   dependencies:
     dataloader "^1.3.0"
     request "^2.83.0"
