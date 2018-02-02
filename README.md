@@ -18,7 +18,7 @@ All of the Data Flow functionality can be implemented using the declarative Grap
 
 - Enable automatic merging of such sources into one GraphQL Schema that can be accessed by internal and/or external teams to build apps in agile manner by using GraphQL’s declarative nature.
 
-- Enable remixing of the GraphQL types (including queries and mutations) from the merged schema into new GraphQL types to produce app-specific schemas. This includes the ability to compose higher-order types to aggregate data from various sources with the ability to filter and pipe the results (from one source to another), all declaratively. In essence, it removes the need for imperatively coding data-flow routines in the mid-tier and/or (as is often the case) in the UI. This means the UI becomes be a pure projection of app state on the server, and a thin I/O layer. 
+- Enable remixing of the GraphQL types (including queries and mutations) from the merged schema into new GraphQL types to produce app-specific schemas. This includes the ability to compose higher-order types to query data from various sources with one request and the ability to filter and pipe the results from one source to another (as long as the fields that return data from those sources share the same parent in the query's type heirarchy), using purely declarative means. This removes the need for imperatively coding data-flow routines in the mid-tier and/or (as is often the case) in the UI. This means the UI becomes be a pure projection of app state on the server, and a thin I/O layer. 
 
 __The main benefit of the approach, besides getting rid of the data-flow code in the UI is to remove the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
 
@@ -317,7 +317,8 @@ type Legend {
   }, 
   ComicAndTrivia: {
     trivia: {
-      /* define fragment on parent type that this field depends on, using fragment, i.e. filter and pipe data between children and in this 
+      /* define fragment on parent type that this field depends on, using 
+      fragment, i.e. filter and pipe data between children and in this 
       case between comic source and trivia source */
       fragment: `fragment ComicFragment on ComicAndTrivia { comic { day month } }`,
       resolve: async (parent, args, ctx: Context, info) => {
