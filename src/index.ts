@@ -37,11 +37,11 @@ const resolvers = {
       return 'Hello'
     }
   },
-  // advanced: special field level resolver that gets its data at runtime from  
-  // the output of another type in the query, via destructuring 
   ComicAndTrivia: {
     trivia: {
-      /* define type and dynamic data that this field depends on, using fragment */
+      /* define fragment on parent type that this field depends on, using 
+      fragment, i.e. filter and pipe data between children and in this 
+      case between comic source and trivia source */
       fragment: `fragment ComicFragment on ComicAndTrivia { comic { day month } }`,
       resolve: async (parent, args, ctx: Context, info) => {
          const {day, month} = parent.comic
@@ -50,12 +50,9 @@ const resolvers = {
       }
     }
   },
-  SomeType: {
-    xyz (parent, args, ctx: Context, info) {
-      const mockData = MockResolvers.SomeType.xyz(parent, args, ctx)
-      return mockData
-    }
-  },
+
+  SomeType:  MockResolvers.SomeType,
+
   TriviaAndFruit: {
     aBasketOfGreenApples (parent, args, ctx: Context, info) {
       const mockData = MockResolvers.Query.greenApple(parent, {}, ctx)
@@ -76,9 +73,7 @@ const resolvers = {
   // GraphQL must be able to distinguish GreenApple from Cherry in MixedFruit
   // which is a Union of types (i.e. the actual type is not fixed at design time) 
   // We do this by referencing the __resolveType in the Mock data source resolvers 
-  MixedFruit: {
-    __resolveType: MockResolvers.MixedFruit.__resolveType
-  }
+  MixedFruit: MockResolvers.MixedFruit
 }
 
 const gramps = prepare({ dataSources: [XKCD, Numbers, Mock] })

@@ -10,7 +10,7 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL and GrAMPS
 
 All of the Data Flow functionality can be implemented using the declarative GraphQL approach described in this document and as demonstrated in the POC. Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. 
 
-![image](https://image.ibb.co/bMaaYb/Untitled_Diagram_43.png)
+![image](https://image.ibb.co/dVvn16/Untitled_Diagram_44.png)
 
 ## TL;DR
 
@@ -18,7 +18,7 @@ All of the Data Flow functionality can be implemented using the declarative Grap
 
 - Enable automatic merging of such sources into one GraphQL Schema that can be accessed by internal and/or external teams to build apps in agile manner by using GraphQL’s declarative nature.
 
-- Enable remixing of the GraphQL types (including queries and mutations) from the merged schema into new GraphQL types to produce application --or client-- specific schema. This includes the ability to declaratively filter, compose and pipe the output from one or more fields into other field in the query. In essence, it allows us to use GraphQL as a declarative, schema-centered, data-flow programming environment, which removes the need for imperatively coding data flow in the mid-tier and/or (as is often the case) in the UI. This means the UI is guaranteed to be a pure projection of app state on the server, and a thin I/O layer. 
+- Enable remixing of the GraphQL types (including queries and mutations) from the merged schema into new GraphQL types to produce app-specific schemas. This includes the ability to compose higher-order types to aggregate data from various sources with the ability to filter and pipe the results (from one source to another), all declaratively. In essence, it removes the need for imperatively coding data-flow routines in the mid-tier and/or (as is often the case) in the UI. This means the UI becomes be a pure projection of app state on the server, and a thin I/O layer. 
 
 __The main benefit of the approach, besides getting rid of the data-flow code in the UI is to remove the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
 
@@ -133,12 +133,11 @@ type Numbers_Trivia {
 
 ```js
 
-// Using mock data source that returns (based on query params):
+// Using mock data source that returns (based on query type):
 // an array of GreenApple,
 // an array of Cherry
 // an an array of Union type of GreenApple and Cherry 
-//  
-// no external request
+// 
 
 // Internal GraphQL Schema for Mock API, manually constructed
 
@@ -146,6 +145,16 @@ type Query {
   greenApple: [GreenApple]
   cherry: [Cherry]
   fruit: [MixedFruit]
+  someQuery: SomeType
+}
+
+type SomeType {
+  abc: String
+  xyz: SomeOtherType
+}
+
+type SomeOtherType {
+  test: String
 }
 
 type Cherry {
@@ -160,14 +169,19 @@ union MixedFruit = Cherry | GreenApple
 
 // Internal Resolvers for Mock API Schema
 
+{
   Query: {
-    greenApple: (parent, args, context) => model.getData({type: "GreenApple"}),
-    cherry: (parent, args, context) => model.getData({type: "Cherry"}),
-    fruit: (parent, args, context) => model.getData({}), // returns Union of both types
+    greenApple: (parent, args, context) => model.getFruit({type: "GreenApple"}),
+    cherry: (parent, args, context) => model.getFruit({type: "Cherry"}),
+    fruit: (parent, args, context) => model.getFruit({}), // returns Union of both fruit types
+    someQuery: (parent, args, context) => model.getSomeData({})
   }, 
+  SomeType: {
+    xyz: (parent, args, context) => model.getSomeOtherData({})
+  },
   // GraphQL must be able to distinguish GreenApple from Cherry in MixedFruit
-  // which is a Union of different types (i.e. the actual type is **not** fixed 
-  // at design time) 
+  // which is a Union of different types (i.e. the actual type is fixed at design
+  // time) 
   // We do this with __resolveType
   MixedFruit: {
     __resolveType(obj) {
@@ -178,6 +192,7 @@ union MixedFruit = Cherry | GreenApple
         }
     }
   }
+}
 ```
 
 ## Example of Automatically Generated Internal MERGED Schema
@@ -214,6 +229,16 @@ type Query {
   greenApple: [GreenApple]
   cherry: [Cherry]
   fruit: [MixedFruit]
+  someQuery: SomeType
+}
+
+type SomeOtherType {
+  test: String
+}
+
+type SomeType {
+  abc: String
+  xyz: SomeOtherType
 }
 
 type XKCD_Comic {
@@ -238,11 +263,12 @@ type XKCD_Comic {
 ```js
 
 # the following is not a comment; see graphql-import 
-# import XKCD_Comic, Numbers_Trivia, GreenApple, Cherry, MixedFruit from "./generated/gramps.graphql"
+# import XKCD_Comic, Numbers_Trivia, GreenApple, Cherry, MixedFruit, SomeType from "./generated/gramps.graphql"
 
 type Query {
-  comicAndTrivia: ComicAndTrivia,
+  comicAndTrivia: ComicAndTrivia
   triviaAndFruit: TriviaAndFruit
+  someQuery: SomeType
   debug: String
 }
 
@@ -252,7 +278,7 @@ type ComicAndTrivia {
 }
 
 type TriviaAndFruit {
-  triviaContent: String, # resolved by Numbers source
+  triviaContent: String # resolved by Numbers source
   aBasketOfGreenApples: [GreenApple]  # resolved by Mock source
   aBasketOfCherries: [Cherry] # resolved by Mock source
   aBasketOfMixedFruit: [MixedFruit] # resolved by Mock source
@@ -279,17 +305,20 @@ type Legend {
       const trivia = await NumbersResolvers.Query.trivia(parent, { number: Math.round(Math.random()*100) }, ctx) 
       return {triviaContent: trivia.text}
     },
+    someQuery (parent, args, ctx: Context, info) {
+      const mockData = MockResolvers.Query.someQuery(parent, {}, ctx)
+      return mockData
+    },
     debug(parent, args, ctx, info) {
       console.log(info);
       console.log(info.fieldNodes)
       return 'Hello'
     }
-  },
-  // advanced: special field level resolver that gets its data at runtime from  
-  // the output of another type in the query, via destructuring 
+  }, 
   ComicAndTrivia: {
     trivia: {
-      /* define type and dynamic data that this field depends on, using fragment */
+      /* define fragment on parent type that this field depends on, using fragment, i.e. filter and pipe data between children and in this 
+      case between comic source and trivia source */
       fragment: `fragment ComicFragment on ComicAndTrivia { comic { day month } }`,
       resolve: async (parent, args, ctx: Context, info) => {
          const {day, month} = parent.comic
@@ -298,6 +327,9 @@ type Legend {
       }
     }
   },
+
+  SomeType:  MockResolvers.SomeType,
+
   TriviaAndFruit: {
     aBasketOfGreenApples (parent, args, ctx: Context, info) {
       const mockData = MockResolvers.Query.greenApple(parent, {}, ctx)
@@ -314,20 +346,145 @@ type Legend {
     legend (parent, args, ctx: Context, info) {
       return {greenApple: "🍏", cherry: "🍒"}
     }
-  },   
-  // referencing __resolveType in the Mock data source resolvers
-  // see resolvers for Mock data source 
-  MixedFruit: {
-    __resolveType: MockResolvers.MixedFruit.__resolveType
-  }
+  },  
+  // GraphQL must be able to distinguish GreenApple from Cherry in MixedFruit
+  // which is a Union of types (i.e. the actual type is not fixed at design time) 
+  // We do this by referencing the __resolveType in the Mock data source resolvers 
+  MixedFruit: MockResolvers.MixedFruit
 }
 
 ```
 
 ## Example Public Query and its Output Using the Remixed Public Schema
 
-![image](https://image.ibb.co/bEmebw/Screen_Shot_2018_01_23_at_7_50_21_AM.png)
+```js
 
-![image](https://image.ibb.co/dGVDib/Screen_Shot_2018_01_22_at_12_30_57_AM.png)
+{
+  someQuery {
+    abc
+    xyz {
+      test
+    }
+  } 
+  comicAndTrivia {
+    comic {
+        title
+    }
+    trivia {
+        text
+    }
+  }
 
+  triviaAndFruit {
+    triviaContent
+    
+    aBasketOfCherries {
+      cherry
+    }
+    aBasketOfGreenApples {
+      apple
+    }
+    aBasketOfMixedFruit {
+       ... on Cherry {
+        cherry
+      }
+      ... on GreenApple {
+        apple
+      }
+    }
+    legend {
+      greenApple
+      cherry
+    }
+  }
+}
+```
 
+```js
+
+{
+  "data": {
+    "someQuery": {
+      "abc": "some string",
+      "xyz": {
+        "test": "this should work, too!"
+      }
+    },
+    "comicAndTrivia": {
+      "comic": {
+        "title": "Chicken Pox and Name Statistics"
+      },
+      "trivia": {
+        "text": "February 2nd is the day in 1976 that the Groundhog Day gale hits the north-eastern United States and south-eastern Canada."
+      }
+    },
+    "triviaAndFruit": {
+      "triviaContent": "58 is the number of counties in California.",
+      "aBasketOfCherries": [
+        {
+          "cherry": "🍒"
+        },
+        {
+          "cherry": "🍒"
+        },
+        {
+          "cherry": "🍒"
+        },
+        {
+          "cherry": "🍒"
+        },
+        {
+          "cherry": "🍒"
+        },
+        {
+          "cherry": "🍒"
+        }
+      ],
+      "aBasketOfGreenApples": [
+        {
+          "apple": "🍏"
+        },
+        {
+          "apple": "🍏"
+        },
+        {
+          "apple": "🍏"
+        },
+        {
+          "apple": "🍏"
+        },
+        {
+          "apple": "🍏"
+        },
+        {
+          "apple": "🍏"
+        },
+        {
+          "apple": "🍏"
+        },
+        {
+          "apple": "🍏"
+        },
+        {
+          "apple": "🍏"
+        }
+      ],
+      "aBasketOfMixedFruit": [
+        {
+          "apple": "🍏"
+        },
+        {
+          "cherry": "🍒 "
+        },
+        {
+          "apple": "🍏"
+        }
+      ],
+      "legend": {
+        "greenApple": "🍏",
+        "cherry": "🍒"
+      }
+    }
+  }
+}
+```
