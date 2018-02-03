@@ -29,5 +29,9 @@ export default class MockModel extends GraphQLModel {
   getSomeOtherData(args) {
     return Promise.resolve({test: "this should work, too!"})
   }
+
+  getYetAnotherData(args) {
+    return Promise.resolve({test: "this should work, too!"})
+  }
   
 }

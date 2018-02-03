@@ -13,6 +13,9 @@ export default {
   SomeType: {
     xyz: (parent, args, context) => model.getSomeOtherData({})
   },
+  SomeOtherType: {
+    anotherTest: (parent, args, context) => model.getYetAnotherData({})
+  },
   // GraphQL must be able to distinguish GreenApple from Cherry in MixedFruit
   // which is a Union of different types (i.e. the actual type is fixed at design
   // time) 

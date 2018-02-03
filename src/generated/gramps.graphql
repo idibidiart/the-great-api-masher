@@ -34,6 +34,7 @@ type Query {
 
 type SomeOtherType {
   test: String
+  anotherTest: YetAnotherType
 }
 
 type SomeType {
@@ -55,4 +56,8 @@ type XKCD_Comic {
   day: String
   link: String
   news: String
+}
+
+type YetAnotherType {
+  test: String
 }

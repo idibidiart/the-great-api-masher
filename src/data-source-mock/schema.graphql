@@ -12,6 +12,11 @@ type SomeType {
 
 type SomeOtherType {
   test: String
+  anotherTest: YetAnotherType
+}
+
+type YetAnotherType {
+  test: String
 }
 
 type Cherry {

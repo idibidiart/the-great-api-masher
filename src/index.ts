@@ -53,6 +53,8 @@ const resolvers = {
 
   SomeType:  MockResolvers.SomeType,
 
+  SomeOtherType:  MockResolvers.SomeOtherType,
+
   TriviaAndFruit: {
     aBasketOfGreenApples (parent, args, ctx: Context, info) {
       const mockData = MockResolvers.Query.greenApple(parent, {}, ctx)

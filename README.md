@@ -155,6 +155,11 @@ type SomeType {
 
 type SomeOtherType {
   test: String
+  anotherTest: YetAnotherType
+}
+
+type YetAnotherType {
+  test: String
 }
 
 type Cherry {
@@ -179,6 +184,9 @@ union MixedFruit = Cherry | GreenApple
   SomeType: {
     xyz: (parent, args, context) => model.getSomeOtherData({})
   },
+  SomeOtherType: {
+    anotherTest: (parent, args, context) => model.getYetAnotherData({})
+  },
   // GraphQL must be able to distinguish GreenApple from Cherry in MixedFruit
   // which is a Union of different types (i.e. the actual type is fixed at design
   // time) 
@@ -198,6 +206,7 @@ union MixedFruit = Cherry | GreenApple
 ## Example of Automatically Generated Internal MERGED Schema
 
 ```js
+
 type Cherry {
   cherry: String
 }
@@ -234,6 +243,7 @@ type Query {
 
 type SomeOtherType {
   test: String
+  anotherTest: YetAnotherType
 }
 
 type SomeType {
@@ -256,6 +266,11 @@ type XKCD_Comic {
   link: String
   news: String
 }
+
+type YetAnotherType {
+  test: String
+}
+
 ```
 
 ## Example of Public GraphQL Schema that Remixes the Merged Internal Schema 
@@ -314,7 +329,7 @@ type Legend {
       console.log(info.fieldNodes)
       return 'Hello'
     }
-  }, 
+  },
   ComicAndTrivia: {
     trivia: {
       /* define fragment on parent type that this field depends on, using 
@@ -330,6 +345,8 @@ type Legend {
   },
 
   SomeType:  MockResolvers.SomeType,
+
+  SomeOtherType:  MockResolvers.SomeOtherType,
 
   TriviaAndFruit: {
     aBasketOfGreenApples (parent, args, ctx: Context, info) {
@@ -359,12 +376,14 @@ type Legend {
 ## Example Public Query and its Output Using the Remixed Public Schema
 
 ```js
-
 {
   someQuery {
     abc
     xyz {
       test
+      anotherTest {
+        test
+      }
     }
   } 
   comicAndTrivia {
@@ -408,7 +427,10 @@ type Legend {
     "someQuery": {
       "abc": "some string",
       "xyz": {
-        "test": "this should work, too!"
+        "test": "this should work, too!",
+        "anotherTest": {
+          "test": "this should work, too!"
+        }
       }
     },
     "comicAndTrivia": {
@@ -416,12 +438,18 @@ type Legend {
         "title": "Chicken Pox and Name Statistics"
       },
       "trivia": {
-        "text": "February 2nd is the day in 1976 that the Groundhog Day gale hits the north-eastern United States and south-eastern Canada."
+        "text": "February 2nd is the day in 1925 that the Charlevoix-Kamouraska earthquake strikes northeastern North America."
       }
     },
     "triviaAndFruit": {
-      "triviaContent": "58 is the number of counties in California.",
+      "triviaContent": "48 is the number of Ptolemaic constellations.",
       "aBasketOfCherries": [
+        {
+          "cherry": "🍒"
+        },
+        {
+          "cherry": "🍒"
+        },
         {
           "cherry": "🍒"
         },
@@ -459,15 +487,6 @@ type Legend {
         },
         {
           "apple": "🍏"
-        },
-        {
-          "apple": "🍏"
-        },
-        {
-          "apple": "🍏"
-        },
-        {
-          "apple": "🍏"
         }
       ],
       "aBasketOfMixedFruit": [
@@ -478,7 +497,25 @@ type Legend {
           "cherry": "🍒 "
         },
         {
+          "cherry": "🍒 "
+        },
+        {
+          "cherry": "🍒 "
+        },
+        {
+          "cherry": "🍒 "
+        },
+        {
           "apple": "🍏"
+        },
+        {
+          "cherry": "🍒 "
+        },
+        {
+          "cherry": "🍒 "
+        },
+        {
+          "cherry": "🍒 "
         }
       ],
       "legend": {
