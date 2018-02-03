@@ -8,7 +8,7 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL and GrAMPS
 
 ## Visual TL;DR
 
-All of the Data Flow functionality can be implemented using the declarative GraphQL approach described in this document and as demonstrated in the POC. Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. 
+All of the Data Flow functionality can be implemented using the declarative GraphQL approach described in this document and as demonstrated in the POC. Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. In addition, we can declaratively define all the data flow logic that we would normally hardcode in our UI or mid-tier data access layer.
 
 ![image](https://image.ibb.co/jqGDPR/Untitled_Diagram_47.png)
 
