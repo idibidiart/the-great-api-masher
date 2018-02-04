@@ -41,8 +41,11 @@ __The main benefit of the approach, besides getting rid of the data-flow code in
   img: 'https://imgs.xkcd.com/comics/universal_dreams.png',
   title: 'Universal Dreams',
   day: '17' }
+```
 
-// Internal GraphQL Schema for XKCD API, manually constructed
+### XKCD Schema
+```js
+// Internal GraphQL Schema for XKCD API
 
 type Query {
   latestComic: XKCD_Comic
@@ -67,15 +70,16 @@ type XKCD_Comic {
 }
 
 // Internal GraphQL Resolvers for XKCD Schema
-
+  {
     Query: {
-      latestComic: (parent, args, context) => model.getLatestComic(),
-      comic: (parent, { id }, context) => model.getComicById(id),
+    latestComic: (parent, args, context) => model.getLatestComic(),
+    comic: (parent, { id }, context) => model.getComicById(id),
     },
     XKCD_Comic: {
       // The link is often empty, so build one if it’s not returned.
       link: data => data.link || `https://xkcd.com/${data.num}/`,
     }
+  }
 ```
 
 ### Numbers Trivia API
@@ -96,9 +100,11 @@ type XKCD_Comic {
   number: 17,
   found: true,
   type: 'date' }
+```
 
-// Internal Graph Schema for Numbers Trivia API, manually constructed
-
+### Numbers  Trivia Schema
+```js
+// Internal GraphQL Schema for Numbers Trivia API
 type Query {
   trivia(number: Int): Numbers_Trivia
   date(date: String): Numbers_Trivia
@@ -116,7 +122,7 @@ type Numbers_Trivia {
 }
 
 // Internal Resolvers for Numbers Trivia Schema
-
+{
   Query: {
     trivia: (parent, { number }, context) => model.getNumbers(number, 'trivia'),
     date: (parent, { date }, context) => model.getNumbers(date, 'date'),
@@ -127,9 +133,10 @@ type Numbers_Trivia {
     date: data => data.date || null, /* have to be explicit if it might be missing */
     year: data => data.year || null, /* have to be explicit if it might be missing */
   }
+}
 ```
 
-### Mock API 
+### Mock Schema
 
 ```js
 
@@ -139,7 +146,7 @@ type Numbers_Trivia {
 // an an array of Union type of GreenApple and Cherry 
 // 
 
-// Internal GraphQL Schema for Mock API, manually constructed
+// Internal GraphQL Schema for Mock API
 
 type Query {
   greenApple: [GreenApple]
@@ -203,7 +210,7 @@ union MixedFruit = Cherry | GreenApple
 }
 ```
 
-## Example of Automatically Generated Internal MERGED Schema
+### Example of Automatically Generated Internal MERGED Schema
 
 ```js
 
@@ -273,7 +280,7 @@ type YetAnotherType {
 
 ```
 
-## Example of Public GraphQL Schema that Remixes the Merged Internal Schema 
+### Example of Public GraphQL Schema that Remixes the Merged Internal Schema 
 
 ```js
 
@@ -307,7 +314,7 @@ type Legend {
 
 ```
 
-## Example of Public Resolvers for the Remixed Public Schema
+### Example of Public Resolvers for the Remixed Public Schema
 
 ```js
 {
@@ -365,7 +372,7 @@ type Legend {
 
 ```
 
-## Example Public Query and its Output Using the Remixed Public Schema
+### Example Public Query and its Output Using the Remixed Public Schema
 
 ```js
 {
