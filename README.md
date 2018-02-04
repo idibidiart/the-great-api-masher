@@ -15,6 +15,7 @@ The APIs sare RESTful anf encapsulate Domain Aggregates (see: [Developing Micros
 
 ![image](https://image.ibb.co/jqGDPR/Untitled_Diagram_47.png)
 
+
 ## TL;DR
 
 - Convert REST APIs into GraphQL data sources that can be shared amongst internal and/or external teams.
