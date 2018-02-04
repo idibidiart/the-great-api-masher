@@ -6,7 +6,7 @@ import Numbers from './data-source-numbers'
 import NumbersResolvers from './data-source-numbers/resolvers'
 import Mock from './data-source-mock'
 import MockResolvers from './data-source-mock/resolvers'
-import { Context, mergeResolvers } from './utils'
+import { Context, mergeObjects } from './utils'
 
 const fillRandom = () => {
   let arr = new Array(Math.round(Math.random() * 10))
@@ -72,7 +72,7 @@ const gramps = prepare({ dataSources: [XKCD, Numbers, Mock] })
 
 const server = new GraphQLServer({
   typeDefs: './src/generated/app.graphql',
-  resolvers: mergeResolvers(resolvers, XKCDResolvers, NumbersResolvers, MockResolvers),
+  resolvers: mergeObjects(resolvers, XKCDResolvers, NumbersResolvers, MockResolvers),
   context: req => ({
     ...req,
     ...gramps.context(req)

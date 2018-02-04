@@ -2,7 +2,8 @@ export interface Context {
   request: any
 }
 
-export const mergeResolvers = (object, ...sources) => {
+// _.defaults()
+export const mergeObjects = (object, ...sources) => {
   object = Object(object)
   sources.forEach((source) => {
     if (source != null) {
