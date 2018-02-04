@@ -8,7 +8,10 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL and GrAMPS
 
 ## Visual TL;DR
 
-All of the Data Flow functionality can be implemented using the declarative GraphQL approach described in this document and as demonstrated in the POC. Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. In addition, we can declaratively define all the data flow logic that we would normally hardcode in our UI or mid-tier data access layer. This helps us build cleaner UIs that avoid hardwiring data flow logic into UI and leaking business logic to the UI.
+All of the data flow functionality can be implemented using the declarative GraphQL approach described in this document and as demonstrated in the POC. Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. In addition, we can declaratively define all the data flow logic that we would normally hardcode in our UI or mid-tier data access layer. This helps us build cleaner UIs that avoid hardwiring data flow logic into UI and leaking business logic to the UI.
+
+The APIs sare RESTful anf encapsulate Domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)
+
 
 ![image](https://image.ibb.co/jqGDPR/Untitled_Diagram_47.png)
 
@@ -16,11 +19,21 @@ All of the Data Flow functionality can be implemented using the declarative Grap
 
 - Convert REST APIs into GraphQL data sources that can be shared amongst internal and/or external teams.
 
-- Enable automatic merging of such sources into one GraphQL Schema that can be accessed by internal and/or external teams to build apps in agile manner by using GraphQL’s declarative nature.
+- Enable automatic merging of such sources into one GraphQL Schema that can be accessed by internal and/or external teams to build apps in agile manner by using GraphQL’s declarative data-flow capabilities.
 
-- Enable remixing of the GraphQL types (including queries and mutations) from the merged schema into new GraphQL types to produce app-specific schemas. This includes the ability to compose higher-order types to query data from various sources with one request and the ability to filter and pipe the results from one source to another (as long as the fields that return data from those sources share the same parent in the query's type heirarchy), using purely declarative means. This removes the need for imperatively coding data-flow routines in the mid-tier and/or (as is often the case) in the UI. This means the UI becomes be a pure projection of app state on the server, and a thin I/O layer. 
+- Enable remixing of the GraphQL types (including queries and mutations) from the merged schema into new GraphQL types to produce app-specific schemas. This includes the ability to compose higher-order types to query data from various sources with one request and the ability to filter and pipe the results from one source to another (when data is non-transactional; see Design Principles below for when it is), using declarative means. This removes the need for imperatively coding data-flow routines in the mid-tier and/or (as is often the case) in the UI. This means the UI becomes be a pure projection of app state on the server, and a thin I/O layer. 
 
-__The main benefit of the approach, besides getting rid of the data-flow code in the UI is to remove the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
+__The other great benefit of the approach, besides getting eliminating the data-flow and all business logic code from the UI is to eliminate the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
+
+
+## Design Patterns
+
+- There should be no attempt to perform distributed transactions via GraphQL (instead use Aggregates on the backend to avoid distributed transactions and perform related mutations/queries within a single database transaction boundary, using the appropriate transaction isolation level, e.g. strict serialiable for writes and snapshot isolation for reads) If distributed transactions are needed, an Aggregate should be created in API outside of GraphQL that manages that distributed transaction.  
+
+- Single Responsibility Principle (SRP) must be preserved in Type Resolvers (aka Controllers) by limiting interactions with the backend to a single API call per resolver and letting GraphQL perform the composition of the query's return type by following the resolver dependency chain. 
+
+- Inference of state from API response should be done using derived fields in the GraphQL query's return type, where normally the client would have to infer state (based on presence/absence of certain fields or other types of inference) 
+
 
 ## Examples of Existing REST APIs (and Mock APIs) and their GraphQL Schema
 
