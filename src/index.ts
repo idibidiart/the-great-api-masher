@@ -6,9 +6,7 @@ import Numbers from './data-source-numbers'
 import NumbersResolvers from './data-source-numbers/resolvers'
 import Mock from './data-source-mock'
 import MockResolvers from './data-source-mock/resolvers'
-import { Context } from './utils'
-
-const util = require('util')
+import { Context, mergeResolvers } from './utils'
 
 const fillRandom = () => {
   let arr = new Array(Math.round(Math.random() * 10))
@@ -51,10 +49,6 @@ const resolvers = {
     }
   },
 
-  SomeType:  MockResolvers.SomeType,
-
-  SomeOtherType:  MockResolvers.SomeOtherType,
-
   TriviaAndFruit: {
     aBasketOfGreenApples (parent, args, ctx: Context, info) {
       const mockData = MockResolvers.Query.greenApple(parent, {}, ctx)
@@ -72,17 +66,13 @@ const resolvers = {
       return {greenApple: "🍏", cherry: "🍒"}
     }
   },  
-  // GraphQL must be able to distinguish GreenApple from Cherry in MixedFruit
-  // which is a Union of types (i.e. the actual type is not fixed at design time) 
-  // We do this by referencing the __resolveType in the Mock data source resolvers 
-  MixedFruit: MockResolvers.MixedFruit
 }
 
 const gramps = prepare({ dataSources: [XKCD, Numbers, Mock] })
 
 const server = new GraphQLServer({
   typeDefs: './src/generated/app.graphql',
-  resolvers,
+  resolvers: mergeResolvers(resolvers, XKCDResolvers, NumbersResolvers, MockResolvers),
   context: req => ({
     ...req,
     ...gramps.context(req)

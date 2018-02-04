@@ -344,10 +344,6 @@ type Legend {
     }
   },
 
-  SomeType:  MockResolvers.SomeType,
-
-  SomeOtherType:  MockResolvers.SomeOtherType,
-
   TriviaAndFruit: {
     aBasketOfGreenApples (parent, args, ctx: Context, info) {
       const mockData = MockResolvers.Query.greenApple(parent, {}, ctx)
@@ -364,11 +360,7 @@ type Legend {
     legend (parent, args, ctx: Context, info) {
       return {greenApple: "🍏", cherry: "🍒"}
     }
-  },  
-  // GraphQL must be able to distinguish GreenApple from Cherry in MixedFruit
-  // which is a Union of types (i.e. the actual type is not fixed at design time) 
-  // We do this by referencing the __resolveType in the Mock data source resolvers 
-  MixedFruit: MockResolvers.MixedFruit
+  }
 }
 
 ```
