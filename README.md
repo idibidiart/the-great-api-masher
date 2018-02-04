@@ -10,11 +10,12 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL and GrAMPS
 
 All of the data flow functionality can be implemented using the declarative GraphQL approach described in this document and as demonstrated in the POC. Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. In addition, we can declaratively define all the data flow logic that we would normally hardcode in our UI or mid-tier data access layer. This helps us build cleaner UIs that avoid hardwiring data flow logic into UI and leaking business logic to the UI.
 
-The APIs sare RESTful anf encapsulate Domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)
+The APIs sare RESTful anf encapsulate Domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates))
 
 
 ![image](https://image.ibb.co/jqGDPR/Untitled_Diagram_47.png)
 
+-
 
 ## TL;DR
 
