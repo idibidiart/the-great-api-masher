@@ -12,10 +12,11 @@ All of the data flow functionality can be implemented using the declarative Grap
 
 The APIs sare RESTful anf encapsulate Domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates))
 
+_
 
 ![image](https://image.ibb.co/jqGDPR/Untitled_Diagram_47.png)
 
--
+_
 
 ## TL;DR
 
