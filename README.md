@@ -2,7 +2,7 @@
 
 Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL
 
-![pf](https://image.ibb.co/nMzHdx/Pink_Floyd_Prism_Rainbows_Dark_Side_Of_The_Moon_X_2039484.jpg)
+![pf](https://image.ibb.co/g8dP8x/1_wl_Xf8_Uu_VWLJt_DDXqo_P1_Tr_Q.png)
 
 ## Visual TL;DR
 
