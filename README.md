@@ -8,7 +8,7 @@ All of the data flow functionality can be implemented using the declarative Grap
 
 ### Note:
 
-GraphQL queries and mutations are async by design. In other words, they are didstributed from a transaction perspective. To ensure a consistent state from queries and mutations, the underlying APIs must provide the required orchestration, e.g. via Domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)), and multiple requests to the same API within a single query or a mutation must be batched or decomposed into separate quries. 
+GraphQL query resolution is composable and async by design. In other words, they are didstributed from a transaction perspective. To ensure a consistent read/write with GraphQL, the underlying APIs must provide the required orchestration, e.g. via Domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) See Design Principles below. 
 
 _
 
@@ -22,16 +22,16 @@ _
 
 - Enable automatic merging of such sources into one GraphQL Schema that can be accessed by internal and/or external teams to build apps in agile manner by using GraphQL’s declarative data-flow capabilities.
 
-- Enable remixing of the GraphQL types (including queries and mutations) from the merged schema into new GraphQL types to produce app-specific schemas. This includes the ability to compose higher-order types to query data from various sources with one request and the ability to filter and pipe the results from one source to another (when data is non-transactional; see Design Principles below for when it is), using declarative means. This removes the need for imperatively coding data-flow routines in the mid-tier and/or (as is often the case) in the UI. This means the UI becomes be a pure projection of app state on the server, and a thin I/O layer. 
+- Enable remixing of the GraphQL types (including queries and mutations) from the merged schema into new GraphQL types to produce app-specific schemas. This includes the ability to compose higher-order types to query data from various sources with one request and the ability to filter and pipe the results from one source to another (when data is static; see Design Principles below for when it's not), using declarative means. This removes the need for imperatively coding data-flow routines in the mid-tier and/or (as is often the case) in the UI. This means the UI becomes be a pure projection of app state on the server, and a thin I/O layer. 
 
 __The other great benefit of the approach, besides getting eliminating the data-flow and all business logic code from the UI is to eliminate the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
 
 
-## Design Patterns
+## Design Principles
 
 - There should be no attempt to perform distributed transactions via GraphQL (instead use Aggregates on the backend to avoid distributed transactions and perform related mutations/queries within a single database transaction boundary, using the appropriate transaction isolation level, e.g. strict serialiable for writes and snapshot isolation for reads) If a distributed transaction is needed, an API must be created that manages the distributed transaction.  
 
-- Given the async/distributed nature of GraphQL queries and mutations, contrasted with the epectation of a consistent state from each query and mutation, multiple requests to the same API within a single query or a mutation must be batched or decomposed into separate quries/mutations. 
+- Given the async/distributed nature of GraphQL queries, contrasted with the epectation of a consistent state from each query, and when dynamic data is being fetched, multiple requests to the same API within a single query must be batched or decomposed into separate quries. This means that resolving the output that corresponds to a list type should not involve calling the same API n times, asynchronously, where n is the number of items in the list. Instead we should batch into one call and let the API handle the consistent read. This also means that we must avoid recursive queries unless the data we're fetching is static.
 
 - Single Responsibility Principle (SRP) must be preserved in Type Resolvers (aka Controllers) by limiting interactions with the backend to a single API call per resolver and letting GraphQL perform the composition of the query's return type by following the resolver dependency chain. This way we can keep the composition declarative.
 
