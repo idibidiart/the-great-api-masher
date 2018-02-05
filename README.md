@@ -14,7 +14,7 @@ GraphQL query resolution is composable and async by design. In other words, they
 
 _
 
-![image](https://image.ibb.co/jqGDPR/Untitled_Diagram_47.png)
+![image](https://image.ibb.co/eyCubH/Untitled_Diagram_48.png)
 
 _
 
