@@ -10,7 +10,7 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL and GrAMPS
 
 All of the data flow functionality can be implemented using the declarative GraphQL approach described in this document and as demonstrated in the POC. Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. In addition, we can declaratively define all the data flow logic that we would normally hardcode in our UI or mid-tier data access layer. This helps us build cleaner UIs that avoid hardwiring data flow logic into UI and leaking business logic to the UI.
 
-The APIs sare RESTful anf encapsulate Domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates))
+The APIs in this context are RESTful and encapsulate Domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates))
 
 _
 
@@ -31,7 +31,7 @@ __The other great benefit of the approach, besides getting eliminating the data-
 
 ## Design Patterns
 
-- There should be no attempt to perform distributed transactions via GraphQL (instead use Aggregates on the backend to avoid distributed transactions and perform related mutations/queries within a single database transaction boundary, using the appropriate transaction isolation level, e.g. strict serialiable for writes and snapshot isolation for reads) If distributed transactions are needed, an Aggregate should be created in API outside of GraphQL that manages that distributed transaction.  
+- There should be no attempt to perform distributed transactions via GraphQL (instead use Aggregates on the backend to avoid distributed transactions and perform related mutations/queries within a single database transaction boundary, using the appropriate transaction isolation level, e.g. strict serialiable for writes and snapshot isolation for reads) If distributed transactions are needed, an API must be created that manages that distributed transaction.  
 
 - Single Responsibility Principle (SRP) must be preserved in Type Resolvers (aka Controllers) by limiting interactions with the backend to a single API call per resolver and letting GraphQL perform the composition of the query's return type by following the resolver dependency chain. 
 
