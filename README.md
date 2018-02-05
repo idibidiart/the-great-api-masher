@@ -33,9 +33,9 @@ __The other great benefit of the approach, besides getting eliminating the data-
 
 - Given the async/distributed nature of GraphQL queries and mutations, contrasted with the epectation of a consistent state from each query and mutation, multiple requests to the same API within a single query or a mutation must be batched or decomposed into separate quries/mutations. 
 
-- Single Responsibility Principle (SRP) must be preserved in Type Resolvers (aka Controllers) by limiting interactions with the backend to a single API call per resolver and letting GraphQL perform the composition of the query's return type by following the resolver dependency chain. 
+- Single Responsibility Principle (SRP) must be preserved in Type Resolvers (aka Controllers) by limiting interactions with the backend to a single API call per resolver and letting GraphQL perform the composition of the query's return type by following the resolver dependency chain. This way we can keep the composition declarative.
 
-- Inference of state from API response should be done using derived fields in the GraphQL query's return type, where normally the client would have to infer state (based on presence/absence of certain fields or other types of inference) 
+- Inference of state from API response should be done using derived fields in the GraphQL query's return type, where normally the client would have to infer state (based on presence/absence of certain fields or other types of inference) This is a feature of GraphQL that allows us to patch API response to eliminate the need to derive app state in the client, which along with the ability to describe data flow tasks declaratively, allows us to keep business logic out of the client.
 
 
 ## Examples of Existing REST APIs (and Mock APIs) and their GraphQL Schema
