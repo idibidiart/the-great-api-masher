@@ -1,6 +1,6 @@
 # The Great API Masher
 
-Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL and GrAMPS
+Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL
 
 ## Visual TL;DR
 
