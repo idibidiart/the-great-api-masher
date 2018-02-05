@@ -1,16 +1,14 @@
 # The Great API Masher
 
-See [this](https://docs.google.com/document/d/1CzGScZ69VozocWmULRB-Kt4i8fxUUmC_xooYq9ZZPAs/edit?usp=sharing) doc for background.
-
-See [Informal Presentation](https://www.youtube.com/watch?v=7Od7ioOae70&t=3s) 
-
 Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL and GrAMPS
 
 ## Visual TL;DR
 
 All of the data flow functionality can be implemented using the declarative GraphQL approach described in this document and as demonstrated in the POC. Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. In addition, we can declaratively define all the data flow logic that we would normally hardcode in our UI or mid-tier data access layer. This helps us build cleaner UIs that avoid hardwiring data flow logic into UI and leaking business logic to the UI.
 
-The APIs in this context are RESTful and encapsulate Domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates))
+### Note:
+
+GraphQL queries and mutations are async by design. In other words, they are didstributed from a transaction perspective. To ensure a consistent state from queries and mutations, the underlying APIs must provide the required orchestration, e.g. via Domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)), and multiple requests to the same API within a single query or a mutation must be batched or decomposed into separate quries. 
 
 _
 
@@ -32,6 +30,8 @@ __The other great benefit of the approach, besides getting eliminating the data-
 ## Design Patterns
 
 - There should be no attempt to perform distributed transactions via GraphQL (instead use Aggregates on the backend to avoid distributed transactions and perform related mutations/queries within a single database transaction boundary, using the appropriate transaction isolation level, e.g. strict serialiable for writes and snapshot isolation for reads) If a distributed transaction is needed, an API must be created that manages the distributed transaction.  
+
+- Given the async/distributed nature of GraphQL queries and mutations, contrasted with the epectation of a consistent state from each query and mutation, multiple requests to the same API within a single query or a mutation must be batched or decomposed into separate quries/mutations. 
 
 - Single Responsibility Principle (SRP) must be preserved in Type Resolvers (aka Controllers) by limiting interactions with the backend to a single API call per resolver and letting GraphQL perform the composition of the query's return type by following the resolver dependency chain. 
 
