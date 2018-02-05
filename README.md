@@ -27,7 +27,7 @@ _
 - Enable remixing of the GraphQL types (including queries and mutations) from the merged data source schemas into new GraphQL types to produce client-specific schema. This includes the ability to compose higher-order types to query data from various sources with one request and the ability to filter and pipe the results from one source to another source (in non-transactional context) using declarative syntax. This removes the need for imperatively hardcoding data-flow routines in the mid-tier and/or (as is often the case) in the UI. It means the UI becomes be a projection of persisted state on the server (aside from client-only state such as animation, visual, and UI component state), and a thin I/O layer. 
 
 
-__The other great benefit of the approach, besides getting eliminating the data-flow and all business logic code from the UI is to eliminate the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
+__The other great benefit of the approach, besides eliminating the data-flow and all business logic code from the UI is to eliminate the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
 
 
 ## Design Principles
