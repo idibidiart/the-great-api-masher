@@ -4,6 +4,13 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL
 
 ![pf](https://image.ibb.co/g8dP8x/1_wl_Xf8_Uu_VWLJt_DDXqo_P1_Tr_Q.png)
 
+## Vision
+
+The overall proposal is to make app development more agile by taking out business logic and data-flow logic out of the UI, leaving the UI a thin I/O layer with only the dynamic behaviors required for interactivity. Ultimately, UI components can be generated from the GraphQL schema as suggestions for the developer and designers can customize them. The GraphQL schema for each data source can also be generated semi-automatically. The goal is to automate 80% of app development and to achieve that goal in stages, each of which brings its own benefit. 
+
+__The other great benefit of the approach, besides eliminating the data-flow and all business logic code from the UI is to eliminate the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
+
+
 ## Visual TL;DR
 
 All of the data flow functionality can be implemented using the declarative GraphQL approach described in this document and as demonstrated in the POC. Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. In addition, we can declaratively define all the data flow logic that we would normally hard-code in our UI or mid-tier data access layer. This helps us build cleaner UIs that avoid hardwiring data flow logic into UI and leaking business logic to the UI.
@@ -18,17 +25,13 @@ _
 
 _
 
-## TL;DR
+## Accomplished Goals (so far)
 
 - Convert REST APIs into GraphQL data sources that can be shared amongst internal and/or external teams.
 
 - Enable automatic merging of such sources into one GraphQL Schema that can be accessed by internal and/or external teams to build apps in agile manner by using GraphQL’s declarative data-flow capabilities.
 
 - Enable remixing of the GraphQL types (including queries and mutations) from the merged data source schemas into new GraphQL types to produce client-specific schema. This includes the ability to compose higher-order types to query data from various sources with one request and the ability to filter and pipe the results from one source to another source (in non-transactional context) using declarative syntax. This removes the need for imperatively hardcoding data-flow routines in the mid-tier and/or (as is often the case) in the UI. It means the UI becomes be a projection of persisted state on the server (aside from client-only state such as animation, visual, and UI component state), and a thin I/O layer. 
-
-
-__The other great benefit of the approach, besides eliminating the data-flow and all business logic code from the UI is to eliminate the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
-
 
 ## Design Principles
 
