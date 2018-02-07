@@ -14,8 +14,6 @@ Ultimately, UI components can be generated from the data as suggestions for the 
 
 Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. In addition, we can declaratively define all the data flow logic that we would normally hard-code in our UI or mid-tier data access layer. This helps us build cleaner UIs that avoid hardwiring data flow logic into UI and leaking business logic to the UI.
 
-__The other great benefit of using GraphQL, besides eliminating the data-flow from the UI, is to eliminate the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
-
 ### Note:
 
 GraphQL query resolution is composable and async by design. In other words, they are distributed from a transaction perspective. To ensure a consistent read/write with GraphQL, the underlying APIs must provide the required orchestration, e.g. via Domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) See Design Principles below. 
@@ -24,7 +22,8 @@ _
 
 ![image](https://image.ibb.co/eyCubH/Untitled_Diagram_48.png)
 
-_
+
+__The other great benefit of using GraphQL, besides eliminating the data-flow from the UI, is to eliminate the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
 
 ## Accomplished Goals (so far)
 
