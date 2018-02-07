@@ -12,7 +12,7 @@ Ultimately, UI components can be generated from the data as suggestions for the 
 
 ## Visual TL;DR
 
-Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. In addition, we can declaratively define all the data flow logic that we would normally hard-code in our UI or mid-tier data access layer. This helps us build cleaner UIs that avoid hardwiring data flow logic into UI and leaking business logic to the UI.
+Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. In addition, we can declaratively define all the data flow logic that we would normally hard-code in our UI or mid-tier data access layer. This helps us build leaner UIs and avoid hard-coding data flow logic.
 
 ### Note:
 
