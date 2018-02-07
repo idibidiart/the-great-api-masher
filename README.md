@@ -32,7 +32,7 @@ __The other great benefit of the approach, besides eliminating the data-flow and
 
 ## Design Principles
 
-These principles are written for GraphQL but they apply to any stateless client-server interaction, not just GraphQL, when consistent reads and writes are im,portant, i.e. in any transactional context.  
+These principles are written for GraphQL but they apply to any stateless client-server interaction, not just GraphQL, when consistent reads/writes are expected, i.e. in any transactional context.  
 
 - There should be no attempt to perform distributed transactions via GraphQL (instead use Aggregates on the backend to avoid distributed transactions and perform related mutations/queries within a single database transaction boundary, using the appropriate transaction isolation level, e.g. strict serializable for writes and snapshot isolation for reads) If a distributed transaction is needed, an API must be created that manages the distributed transaction.  
 
