@@ -12,4 +12,4 @@ export default {
       // The link is often empty, so build one if it’s not returned.
       link: data => data.link || `https://xkcd.com/${data.num}/`,
     },
-  };
+  }

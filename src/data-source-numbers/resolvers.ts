@@ -14,4 +14,4 @@ export default {
     date: data => data.date || null, /* have to be explicit if it might be missing */
     year: data => data.year || null, /* have to be explicit if it might be missing */
   },
-};
+}

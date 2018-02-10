@@ -98,15 +98,15 @@ type XKCD_Comic {
 }
 
 // Internal GraphQL Resolvers for XKCD Schema
-  {
+{
     Query: {
-    latestComic: (parent, args, context) => model.getLatestComic(),
-    comic: (parent, { id }, context) => model.getComicById(id),
+      latestComic: (parent, args, context) => model.getLatestComic(parent, args, context),
+      comic: (parent, { id }, context) => model.getComicById(parent, {id}, context),
     },
     XKCD_Comic: {
       // The link is often empty, so build one if it’s not returned.
       link: data => data.link || `https://xkcd.com/${data.num}/`,
-    }
+    },
   }
 ```
 
@@ -130,7 +130,7 @@ type XKCD_Comic {
   type: 'date' }
 ```
 
-### Numbers  Trivia Schema
+### Numbers Trivia Schema
 ```js
 // Internal GraphQL Schema for Numbers Trivia API
 type Query {
@@ -152,15 +152,15 @@ type Numbers_Trivia {
 // Internal Resolvers for Numbers Trivia Schema
 {
   Query: {
-    trivia: (parent, { number }, context) => model.getNumbers(number, 'trivia'),
-    date: (parent, { date }, context) => model.getNumbers(date, 'date'),
-    math: (parent, { number }, context) => model.getNumbers(number, 'math'),
-    year: (parent, { number }, context) => model.getNumbers(number, 'year'),
+    trivia: (parent, { number }, context) => model.getNumbers(parent, {number, type: 'trivia'}, context),
+    date: (parent, { date }, context) => model.getNumbers(parent, {number: date, type: 'date'}, context),
+    math: (parent, { number }, context) => model.getNumbers(parent, {number, type: 'math'}, context),
+    year: (parent, { number }, context) => model.getNumbers(parent, {number, type: 'year'}, context),
   },
   Numbers_Trivia: {
     date: data => data.date || null, /* have to be explicit if it might be missing */
     year: data => data.year || null, /* have to be explicit if it might be missing */
-  }
+  },
 }
 ```
 
@@ -184,7 +184,8 @@ type Query {
 }
 
 type SomeType {
-  abc: String
+  abc (someInput: String!): String
+  timeStamp: String
   xyz: SomeOtherType
 }
 
@@ -214,13 +215,17 @@ union MixedFruit = Cherry | GreenApple
     greenApple: (parent, args, context) => model.getFruit({type: "GreenApple"}),
     cherry: (parent, args, context) => model.getFruit({type: "Cherry"}),
     fruit: (parent, args, context) => model.getFruit({}), // returns Union of both fruit types
-    someQuery: (parent, args, context) => model.getSomeData({})
+    someQuery: (parent, args, context) => {
+      return {}
+    }
   }, 
   SomeType: {
-    xyz: (parent, args, context) => model.getSomeOtherData({})
+    abc: (parent, args, context) => Promise.resolve(`some autocompletion of ${args.someInput}`),
+    timeStamp: (parent, args, context) => Promise.resolve(context.timeStamp),
+    xyz: (parent, args, context) => model.getSomeOtherData(parent, args, context)
   },
   SomeOtherType: {
-    anotherTest: (parent, args, context) => model.getYetAnotherData({})
+    anotherTest: (parent, args, context) => model.getYetAnotherData(parent, args, context)
   },
   // GraphQL must be able to distinguish GreenApple from Cherry in MixedFruit
   // which is a Union of different types (i.e. the actual type is fixed at design
@@ -241,10 +246,6 @@ union MixedFruit = Cherry | GreenApple
 ### Example of Automatically Generated Internal MERGED Schema
 
 ```js
-
-type Cherry {
-  cherry: String
-}
 
 type GreenApple {
   apple: String
@@ -282,7 +283,8 @@ type SomeOtherType {
 }
 
 type SomeType {
-  abc: String
+  abc(someInput: String!): String
+  timeStamp: String
   xyz: SomeOtherType
 }
 
@@ -348,7 +350,7 @@ type Legend {
 {
   Query: {
     async comicAndTrivia(parent, args, ctx: Context, info) {
-      const comic = await XKCDResolvers.Query.latestComic(parent, {}, ctx)
+      const comic = await XKCDResolvers.Query.latestComic(parent, args, ctx)
       return { comic }
     },
     async triviaAndFruit(parent, args, ctx: Context, info) {
@@ -356,7 +358,7 @@ type Legend {
       return {triviaContent: trivia.text}
     },
     someQuery (parent, args, ctx: Context, info) {
-      const mockData = MockResolvers.Query.someQuery(parent, {}, ctx)
+      const mockData = MockResolvers.Query.someQuery(parent, args, ctx)
       return mockData
     },
     debug(parent, args, ctx, info) {
@@ -381,21 +383,21 @@ type Legend {
 
   TriviaAndFruit: {
     aBasketOfGreenApples (parent, args, ctx: Context, info) {
-      const mockData = MockResolvers.Query.greenApple(parent, {}, ctx)
+      const mockData = MockResolvers.Query.greenApple(parent, args, ctx)
       return mockData
     },
     aBasketOfCherries (parent, args, ctx: Context, info) {
-      const mockData = MockResolvers.Query.cherry(parent, {}, ctx)
+      const mockData = MockResolvers.Query.cherry(parent, args, ctx)
       return mockData
     },
     aBasketOfMixedFruit (parent, args, ctx: Context, info) {
-      const mockData = MockResolvers.Query.fruit(parent, {}, ctx)
+      const mockData = MockResolvers.Query.fruit(parent, args, ctx)
       return mockData
     },
     legend (parent, args, ctx: Context, info) {
       return {greenApple: "🍏", cherry: "🍒"}
     }
-  }
+  },  
 }
 
 ```
