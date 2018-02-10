@@ -5,10 +5,10 @@ const model = new Model({ connector: new Connector() })
 
 export default {
   Query: {
-    trivia: (parent, { number }, context) => model.getNumbers(number, 'trivia'),
-    date: (parent, { date }, context) => model.getNumbers(date, 'date'),
-    math: (parent, { number }, context) => model.getNumbers(number, 'math'),
-    year: (parent, { number }, context) => model.getNumbers(number, 'year'),
+    trivia: (parent, { number }, context) => model.getNumbers(parent, {number, type: 'trivia'}, context),
+    date: (parent, { date }, context) => model.getNumbers(parent, {number: date, type: 'date'}, context),
+    math: (parent, { number }, context) => model.getNumbers(parent, {number, type: 'math'}, context),
+    year: (parent, { number }, context) => model.getNumbers(parent, {number, type: 'year'}, context),
   },
   Numbers_Trivia: {
     date: data => data.date || null, /* have to be explicit if it might be missing */

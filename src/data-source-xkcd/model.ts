@@ -13,7 +13,7 @@ export default class XKCDModel extends GraphQLModel {
    * Loads the latest xkcd comic.
    * @return {Promise}     resolves with the loaded comic data
    */
-  async getLatestComic() {
+  async getLatestComic(parent, args, context) {
     return this.connector.get(`/info.0.json`)
       .then((res) => {
         // workaround for Promise.all use by Dataloader
@@ -34,7 +34,7 @@ export default class XKCDModel extends GraphQLModel {
    * @param  {String}  id  the ID of the comic to load
    * @return {Promise}     resolves with the loaded comic data
    */
-  async getComicById(id) {
+  async getComicById(parent, {id}, context) {
     return this.connector.get(`/${id}/info.0.json`)
       .then((res) => {
         // workaround for Promise.all used for Dataloader

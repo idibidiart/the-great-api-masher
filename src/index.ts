@@ -18,7 +18,7 @@ const fillRandom = () => {
 const resolvers = {
   Query: {
     async comicAndTrivia(parent, args, ctx: Context, info) {
-      const comic = await XKCDResolvers.Query.latestComic(parent, {}, ctx)
+      const comic = await XKCDResolvers.Query.latestComic(parent, args, ctx)
       return { comic }
     },
     async triviaAndFruit(parent, args, ctx: Context, info) {
@@ -26,7 +26,7 @@ const resolvers = {
       return {triviaContent: trivia.text}
     },
     someQuery (parent, args, ctx: Context, info) {
-      const mockData = MockResolvers.Query.someQuery(parent, {}, ctx)
+      const mockData = MockResolvers.Query.someQuery(parent, args, ctx)
       return mockData
     },
     debug(parent, args, ctx, info) {
@@ -51,15 +51,15 @@ const resolvers = {
 
   TriviaAndFruit: {
     aBasketOfGreenApples (parent, args, ctx: Context, info) {
-      const mockData = MockResolvers.Query.greenApple(parent, {}, ctx)
+      const mockData = MockResolvers.Query.greenApple(parent, args, ctx)
       return mockData
     },
     aBasketOfCherries (parent, args, ctx: Context, info) {
-      const mockData = MockResolvers.Query.cherry(parent, {}, ctx)
+      const mockData = MockResolvers.Query.cherry(parent, args, ctx)
       return mockData
     },
     aBasketOfMixedFruit (parent, args, ctx: Context, info) {
-      const mockData = MockResolvers.Query.fruit(parent, {}, ctx)
+      const mockData = MockResolvers.Query.fruit(parent, args, ctx)
       return mockData
     },
     legend (parent, args, ctx: Context, info) {
@@ -69,13 +69,15 @@ const resolvers = {
 }
 
 const gramps = prepare({ dataSources: [XKCD, Numbers, Mock] })
+ 
+const allResolvers = mergeObjects(resolvers, XKCDResolvers, NumbersResolvers, MockResolvers)
 
 const server = new GraphQLServer({
   typeDefs: './src/generated/app.graphql',
-  resolvers: mergeObjects(resolvers, XKCDResolvers, NumbersResolvers, MockResolvers),
+  resolvers: allResolvers,
   context: req => ({
     ...req,
-    ...gramps.context(req)
+    timeStamp: Date.now()
   }),
 })
 

@@ -22,16 +22,12 @@ export default class MockModel extends GraphQLModel {
     return Promise.resolve(fruitBasket)
   }
 
-  getSomeData(args) {
-    return Promise.resolve({abc: "some string"})
+  getSomeOtherData(parent, args, context) {
+    return Promise.resolve({test: "some test xyz"})
   }
 
-  getSomeOtherData(args) {
-    return Promise.resolve({test: "this should work, too!"})
-  }
-
-  getYetAnotherData(args) {
-    return Promise.resolve({test: "this should work, too!"})
+  getYetAnotherData(parent, args, context) {
+    return Promise.resolve({test: "yet another test", uuid: args.uuid})
   }
   
 }

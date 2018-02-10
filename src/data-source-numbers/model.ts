@@ -6,19 +6,19 @@ export default class NumbersModel extends GraphQLModel {
     super({connector});
   }
  
-  async getNumbers(input, type) {
-    return this.connector.get(`/${input}/${type}`)
+  async getNumbers(parent, {number, type}, context) {
+    return this.connector.get(`/${number}/${type}`)
       .then((res) => {
         // workaround for Promise.all used for Dataloader
         if (res.error) {
           throw(res)
         }
-        console.log("Numbers API output for getNumbers with input", input, "type", type, res)
+        console.log("Numbers API output for getNumbers with input", number, "type", type, res)
         return res
       })
       .catch(res => {
         this.throwError(res, {
-          data: { input, type }
+          data: { number, type }
         })
       }
     );

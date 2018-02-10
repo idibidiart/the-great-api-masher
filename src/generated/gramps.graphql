@@ -38,7 +38,8 @@ type SomeOtherType {
 }
 
 type SomeType {
-  abc: String
+  abc(someInput: String!): String
+  timeStamp: String
   xyz: SomeOtherType
 }
 

@@ -8,13 +8,17 @@ export default {
     greenApple: (parent, args, context) => model.getFruit({type: "GreenApple"}),
     cherry: (parent, args, context) => model.getFruit({type: "Cherry"}),
     fruit: (parent, args, context) => model.getFruit({}), // returns Union of both fruit types
-    someQuery: (parent, args, context) => model.getSomeData({})
+    someQuery: (parent, args, context) => {
+      return {}
+    }
   }, 
   SomeType: {
-    xyz: (parent, args, context) => model.getSomeOtherData({})
+    abc: (parent, args, context) => Promise.resolve(`some autocompletion of ${args.someInput}`),
+    timeStamp: (parent, args, context) => Promise.resolve(context.timeStamp),
+    xyz: (parent, args, context) => model.getSomeOtherData(parent, args, context)
   },
   SomeOtherType: {
-    anotherTest: (parent, args, context) => model.getYetAnotherData({})
+    anotherTest: (parent, args, context) => model.getYetAnotherData(parent, args, context)
   },
   // GraphQL must be able to distinguish GreenApple from Cherry in MixedFruit
   // which is a Union of different types (i.e. the actual type is fixed at design
