@@ -451,43 +451,26 @@ type Legend {
 {
   "data": {
     "someQuery": {
-      "abc": "some string",
+      "abc": "some autocompletion of some string",
+      "timeStamp": "1518233840275",
       "xyz": {
-        "test": "this should work, too!",
+        "test": "some test xyz",
         "anotherTest": {
-          "test": "this should work, too!"
+          "test": "yet another test"
         }
       }
     },
     "comicAndTrivia": {
       "comic": {
-        "title": "Chicken Pox and Name Statistics"
+        "title": "The History of Unicode"
       },
       "trivia": {
-        "text": "February 2nd is the day in 1925 that the Charlevoix-Kamouraska earthquake strikes northeastern North America."
+        "text": "February 9th is the day in 1975 that the Soyuz 17 Soviet spacecraft returns to Earth."
       }
     },
     "triviaAndFruit": {
-      "triviaContent": "48 is the number of Ptolemaic constellations.",
+      "triviaContent": "85 is the atomic number of astatine.",
       "aBasketOfCherries": [
-        {
-          "cherry": "🍒"
-        },
-        {
-          "cherry": "🍒"
-        },
-        {
-          "cherry": "🍒"
-        },
-        {
-          "cherry": "🍒"
-        },
-        {
-          "cherry": "🍒"
-        },
-        {
-          "cherry": "🍒"
-        },
         {
           "cherry": "🍒"
         },
@@ -513,22 +496,19 @@ type Legend {
         },
         {
           "apple": "🍏"
+        },
+        {
+          "apple": "🍏"
+        },
+        {
+          "apple": "🍏"
+        },
+        {
+          "apple": "🍏"
         }
       ],
       "aBasketOfMixedFruit": [
         {
-          "apple": "🍏"
-        },
-        {
-          "cherry": "🍒 "
-        },
-        {
-          "cherry": "🍒 "
-        },
-        {
-          "cherry": "🍒 "
-        },
-        {
           "cherry": "🍒 "
         },
         {
@@ -538,10 +518,13 @@ type Legend {
           "cherry": "🍒 "
         },
         {
-          "cherry": "🍒 "
+          "apple": "🍏"
         },
         {
           "cherry": "🍒 "
+        },
+        {
+          "apple": "🍏"
         }
       ],
       "legend": {
