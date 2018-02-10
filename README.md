@@ -403,7 +403,8 @@ type Legend {
 ```js
 {
   someQuery {
-    abc
+    abc (someInput:"some string")
+    timeStamp
     xyz {
       test
       anotherTest {
