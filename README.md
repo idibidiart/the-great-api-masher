@@ -36,7 +36,7 @@ __The other great benefit of using GraphQL, besides eliminating the data-flow fr
 
 These principles apply whenever consistent reads for related data are expected when using stateless APIs with concurrent acess to shared mutable data by multiple processes. 
 
-While the API layer and the database schema/queries should be defined in such a way as to guarantee consistent reads for related data, having a client invoke the same stateless API more than once within the boundary of one GraphQLquery can lead to application-level inconsistency.
+While the API layer and the database schema/queries should be defined in such a way as to guarantee consistent reads for related data and serializable or linearizable updates, having a client invoke the same stateless API more than once within the boundary of one GraphQLquery can lead to application-level inconsistency.
 
 - There should be no attempt to perform distributed transactions via GraphQL (instead use Aggregates on the backend to avoid distributed transactions and perform related mutations/queries within a single database transaction boundary, using the appropriate transaction isolation level, e.g. strict serializable for writes and snapshot isolation for reads) If a distributed transaction is needed, an API must be created that manages the distributed transaction.  
 
