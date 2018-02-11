@@ -18,8 +18,6 @@ Instead of four (4) requests between UI and REST API we’ll have just one (1) r
 
 GraphQL query resolution is async and composable. To ensure a consistent read/write with GraphQL, the underlying APIs must provide the required orchestration, e.g. via domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) along with read/write transation isolation. 
 
-_
-
 ![image](https://image.ibb.co/jiHTy7/Untitled_Diagram_49.png)
 
 
