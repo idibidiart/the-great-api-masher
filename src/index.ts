@@ -37,9 +37,8 @@ const resolvers = {
   },
   ComicAndTrivia: {
     trivia: {
-      /* define fragment on parent type that this field depends on, using 
-      fragment, i.e. filter and pipe data between children and in this 
-      case between comic source and trivia source */
+      /* reselect a field and its descendants from parent that this field depends on, 
+      using fragment */
       fragment: `fragment ComicFragment on ComicAndTrivia { comic { day month } }`,
       resolve: async (parent, args, ctx: Context, info) => {
          const {day, month} = parent.comic

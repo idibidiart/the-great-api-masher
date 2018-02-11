@@ -20,7 +20,7 @@ GraphQL query resolution is async and composable. To ensure a consistent read/wr
 
 _
 
-![image](https://image.ibb.co/eyCubH/Untitled_Diagram_48.png)
+![image](https://image.ibb.co/jiHTy7/Untitled_Diagram_49.png)
 
 
 __The other great benefit of using GraphQL, besides eliminating the data-flow from the UI, is to eliminate the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
@@ -369,9 +369,8 @@ type Legend {
   },
   ComicAndTrivia: {
     trivia: {
-      /* define fragment on parent type that this field depends on, using 
-      fragment, i.e. filter and pipe data between children and in this 
-      case between comic source and trivia source */
+      /* reselect a field and its descendants from parent that this field depends on, 
+      using fragment */
       fragment: `fragment ComicFragment on ComicAndTrivia { comic { day month } }`,
       resolve: async (parent, args, ctx: Context, info) => {
          const {day, month} = parent.comic
