@@ -16,7 +16,7 @@ Instead of four (4) requests between UI and REST API we’ll have just one (1) r
 
 ### Note:
 
-GraphQL query resolution is async and composable. To ensure a consistent read/write with GraphQL, the underlying APIs must provide the required orchestration, e.g. via domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) along with read/write transation isolation. 
+To ensure data consistent reads of related data and serializable or linearizable updates, the underlying APIs must provide the required orchestration of related actions and aggregation of related data, e.g. via domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) along with read/write transation isolation. 
 
 ![image](https://image.ibb.co/dq0ZMS/Untitled_Diagram_52.png)
 
@@ -30,13 +30,13 @@ __The other great benefit of using GraphQL, besides eliminating the data-flow fr
 
 - Enable automatic merging of such sources into one GraphQL Schema that can be accessed by internal and/or external teams to build apps in agile manner by using GraphQL’s declarative data-flow capabilities.
 
-- Enable remixing of the GraphQL types (including queries and mutations) from the merged data source schemas into new GraphQL types to produce client-specific schema. This includes the ability to compose higher-order types to query data from various sources with one request and the ability to derive state based on some field in the query and represent that derived state in a sibling field, using declarative syntax (in non-transactional data-flow context.) This removes the need for imperatively hardcoding common data-flow processes in the mid-tier and/or (as is often the case) in the UI. It means the UI becomes be a pure projection of persisted/derived state on the server (aside from client-specific logic for UI component animation and validation), and a thin I/O layer. 
+- Enable remixing of the GraphQL types (including queries and mutations) from the merged data source schemas into new GraphQL types to produce client-specific schema. This includes the ability to compose higher-order types to query data from various sources with one request and the ability to derive state based on some field in the query/mutation result, and represent the derived state in a sibling field, using declarative syntax. This removes the need for imperatively hardcoding common data-flow processes in the mid-tier and/or (as is often the case) in the UI. It means the UI becomes be a pure projection of persisted/derived state on the server (aside from client-specific logic for UI component animation and validation), and a thin I/O layer. 
 
 ## Design Principles
 
-These principles apply whenever consistent reads are expected while using stateless APIs with concurrent read/write acess to shared data by multiple processes. 
+These principles apply whenever consistent reads for related data are expected when using stateless APIs with concurrent acess to shared mutable data by multiple processes. 
 
-While the RESTful API layer and the database queries must be defined in such a way as to guarantee read/write consistency of persisted state, eventually or for all reads/writes, having a client invoke the same stateless API more than once within the boundary of one (client side) query can lead to application-level inconsistency.
+While the API layer and the database schema/queries should be defined in such a way as to guarantee consistent reads for related data, having a client invoke the same stateless API more than once within the boundary of one GraphQLquery can lead to application-level inconsistency.
 
 - There should be no attempt to perform distributed transactions via GraphQL (instead use Aggregates on the backend to avoid distributed transactions and perform related mutations/queries within a single database transaction boundary, using the appropriate transaction isolation level, e.g. strict serializable for writes and snapshot isolation for reads) If a distributed transaction is needed, an API must be created that manages the distributed transaction.  
 
