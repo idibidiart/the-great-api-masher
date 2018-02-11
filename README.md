@@ -20,6 +20,7 @@ GraphQL query resolution is async and composable. To ensure a consistent read/wr
 
 ![image](https://image.ibb.co/jiHTy7/Untitled_Diagram_49.png)
 
+-
 
 __The other great benefit of using GraphQL, besides eliminating the data-flow from the UI, is to eliminate the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
 
