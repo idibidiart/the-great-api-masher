@@ -10,7 +10,7 @@ The overall proposal is to make UI development more agile by leveraging GraphQL,
 
 Ultimately, UI components may be generated from the GraphQL schema as suggestions to UI developers, which can be customized by them and/or the designers. The idea is to ultimately generate 80% of code involved in developing a front-end app, starting with the data, and leveraging both GraphQL's declarative paradigm as well as interactive CLI tools, while also supporting fully manual --yet evolved-- app development with no lock-in. 
 
-The philosophy employed here is to tackle the essential complexity of the task of building highly maintainable and highly performant apps, using a principled approach centered around use of declarative data flow and keeping business logic out of the UI while at the same time eliminating self-inflicted, incidental complexity.
+The philosophy employed here is to tackle the essential complexity of the task of building highly maintainable and highly performant apps, by using a declarative data flow and keeping business logic out of the UI, while at the same time eliminating self-inflicted, incidental complexity.
 
 ## Visual TL;DR
 
