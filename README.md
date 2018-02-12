@@ -8,7 +8,7 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL
 
 The overall proposal is to make UI development more agile by leveraging GraphQL, an open source spec and implementation from Facebook, to implement data flow and runtime state derivation using a declarative paradigm, leaving the UI a thin I/O layer, with only the behaviors required for interactivity. 
 
-Ultimately, UI components may be generated from the GraphQL schema as suggestions to UI developers, which can be customized by them and/or the designers. The idea is to ultimately generate 80% of code involved in developing a front-end app, starting with the data, using both the declarative paradigm as well as interactive CLI tools for automation, while also supporting fully manual code creation and maintenance, i.e. no lock-in of any kind.  
+Ultimately, UI components may be generated from the GraphQL schema as suggestions to UI developers, which can be customized by them and/or the designers. The idea is to ultimately generate 80% of code involved in developing a front-end app, starting with the data, leveraging both GraphQL's declarative paradigm as well as interactive CLI tools, while also supporting fully manual development, i.e. no lock-in.
 
 ## Visual TL;DR
 
