@@ -32,7 +32,7 @@ __The other great benefit of using the declarative power of GraphQL, besides eli
 
 - Enable remixing of the GraphQL types (including queries and mutations) from the merged data source schemas into new GraphQL types to produce client-specific schema. This includes the ability to compose higher-order types to query data from various sources with one request and the ability to derive state based on some field in the query/mutation result, and represent the derived state in a sibling field, using declarative syntax. This removes the need for imperatively hardcoding common data-flow processes in the mid-tier and/or (as is often the case) in the UI. It means the UI becomes be a pure projection of persisted/derived state on the server (aside from client-specific logic for UI component animation and validation), and a thin I/O layer. 
 
-## Common Sense Rules for Application Correctness
+## Rules for Application Correctness
 
 These rules apply whenever consistent reads and writes for related data are expected when using stateless APIs in the presence of concurrency and shared mutable state.  
 
