@@ -6,17 +6,17 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL
 
 ## Vision
 
-The overall proposal is to make UI development more agile by leveraging GraphQL to declaratively implement data flow, leaving the UI a thin I/O layer, with only the dynamic behaviors required for interactivity. 
+The overall proposal is to make UI development more agile by leveraging GraphQL to implement data flow and runtime state derivation using the declarative paradigm, leaving the UI a thin I/O layer, with only the behaviors required for interactivity. 
 
-Ultimately, UI components can be generated from the data as suggestions for the developer and designers can customize them. The idea is to ultimately generate 80% of code involved in developing a front-end app, through a mix of declarative paradigms and automation. 
+Ultimately, UI components may be generated from the data as suggestions to the UI developers which can be customized by themselves and the designers. The idea is to ultimately generate 80% of code involved in developing a front-end app, starting with the data, using both the declarative paradigm as well as interactive CLI tools for automation. 
 
 ## Visual TL;DR
 
-Instead of four (4) requests between UI and REST API we’ll have just one (1) request between UI and GraphQL. In addition, we can declaratively define common data flow processes that we would normally hard-code in our UI or mid-tier data access layer. This helps us build leaner UIs and avoid hard-coding data flow and derived state in the UI.
+In the example below, you see that istead of four (4) requests between UI and REST API we have just one (1) request between UI and GraphQL. This can be done for the whole page or per component. It makes getting the data in a readily consumable form possible with just one call, thus increasing page load and pre-rendering performance drastically. In addition, we are able to define common data flow processes, including runtime state derivation, using the declarative paradigm of GraphQL instead of hard-coding that data flow in our UI or mid-tier data access layer. This helps us build cleaner UIs as well as avoid hard-coding data flow and runtime state derivation (and inference) in the UI and/or mid-tier.
 
 ### Note:
 
-To ensure consistent reads and writes of related data in the presence of concurrency and shared mutable state, the underlying APIs must provide the orchestration of related updates and aggregation of related data, e.g. via domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) along with read/write transation isolation. 
+To ensure correct application behavior, in the presence of concurrency and shared mutable state, the underlying APIs must provide the transactional isolation required during orchestration and aggregation of related data, e.g. using domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) along with read/write transation isolation. 
 
 ![image](https://image.ibb.co/dq0ZMS/Untitled_Diagram_52.png)
 
@@ -32,9 +32,9 @@ __The other great benefit of using the declarative power of GraphQL, besides eli
 
 - Enable remixing of the GraphQL types (including queries and mutations) from the merged data source schemas into new GraphQL types to produce client-specific schema. This includes the ability to compose higher-order types to query data from various sources with one request and the ability to derive state based on some field in the query/mutation result, and represent the derived state in a sibling field, using declarative syntax. This removes the need for imperatively hardcoding common data-flow processes in the mid-tier and/or (as is often the case) in the UI. It means the UI becomes be a pure projection of persisted/derived state on the server (aside from client-specific logic for UI component animation and validation), and a thin I/O layer. 
 
-## Rules for Application Correctness
+## Application Correctness
 
-These rules apply whenever consistent reads and writes for a set of related data are expected when using stateless APIs in the presence of concurrency and shared mutable state.  
+The following rules apply whenever consistent reads and writes for a set of related data are expected when using stateless APIs in the presence of concurrency and shared mutable state.  
 
 While the API layer and the database schema/queries should be defined in such a way as to guarantee consistent reads and writes for related data, e.g. by using domain Aggregates in API endpoints, where distributed transactions can be avoided and all reads and writes happen within a single database transaction boundary, having a client invoke the same API endpoint (!) more than once within the boundary of a single GraphQL query, i.e. a distributed transaction from the database perspective, can lead to application-level data inconsistency and incorrect behavior. 
 
