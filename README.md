@@ -16,13 +16,13 @@ Instead of four (4) requests between UI and REST API we’ll have just one (1) r
 
 ### Note:
 
-To ensure data consistent reads of related data and serializable or linearizable updates, the underlying APIs must provide the required orchestration of related actions and aggregation of related data, e.g. via domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) along with read/write transation isolation. 
+To ensure consistent reads and writes of related data in the presence of concurrency and shared mutable state, the underlying APIs must provide the orchestration of related updates and aggregation of related data, e.g. via domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) along with read/write transation isolation. 
 
 ![image](https://image.ibb.co/dq0ZMS/Untitled_Diagram_52.png)
 
 ...
 
-__The other great benefit of using GraphQL, besides eliminating the data-flow from the UI, is to eliminate the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
+__The other great benefit of using the declarative power of GraphQL, besides eliminating the data-flow from the UI, is to eliminate the blocking dependency the frontend team often has on the backend team (those endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones simply go away with GraphQL and this declarative approach to _remixing_ REST APIs)__
 
 ## Accomplished Goals (so far)
 
