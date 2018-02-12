@@ -20,7 +20,7 @@ To ensure correct application behavior, and specifically, guaranteeing consisten
 
 .
 
-![image](https://image.ibb.co/dq0ZMS/Untitled_Diagram_52.png)
+![image](https://image.ibb.co/bSCTi7/Untitled_Diagram_53.png)
 
 ...
 
