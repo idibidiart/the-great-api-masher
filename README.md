@@ -34,7 +34,7 @@ __The other great benefit of using the declarative power of GraphQL, besides eli
 
 ## Rules for Application Correctness
 
-These rules apply whenever consistent reads and writes for related data are expected when using stateless APIs in the presence of concurrency and shared mutable state.  
+These rules apply whenever consistent reads and writes for a set of related data are expected when using stateless APIs in the presence of concurrency and shared mutable state.  
 
 While the API layer and the database schema/queries should be defined in such a way as to guarantee consistent reads and writes for related data, e.g. by using domain Aggregates in API endpoints, where distributed transactions can be avoided and all reads and writes happen within a single database transaction boundary, having a client invoke the same API endpoint (!) more than once within the boundary of a single GraphQL query, i.e. a distributed transaction from the database perspective, can lead to application-level data inconsistency and incorrect behavior. 
 
