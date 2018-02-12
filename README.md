@@ -16,7 +16,7 @@ In the example below, you see that istead of four (4) requests between UI and RE
 
 ### Note:
 
-To ensure correct application behavior, and specifically, guaranteeing consistent reads and writes of a set of related data in the presence of concurrency and shared mutable state, the underlying APIs and database must provide the transactional isolation required during orchestration and aggregation of related data, e.g. using domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) along with read/write transation isolation. 
+To ensure correct application behavior, and specifically, guaranteeing consistent reads and writes of a set of related data in the presence of concurrency and shared mutable state, the APIs must leverage the database to provide the level of transactional isolation required during orchestration and aggregation of any set of related data, e.g. using domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) 
 
 .
 
