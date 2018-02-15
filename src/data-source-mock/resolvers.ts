@@ -14,7 +14,7 @@ export default {
   }, 
   SomeType: {
     abc: (parent, args, context) => Promise.resolve(`some autocompletion of ${args.someInput}`),
-    timeStamp: (parent, args, context) => Promise.resolve(context.timeStamp),
+    __uuid: (parent, args, context) => Promise.resolve(context.__uuid),
     xyz: (parent, args, context) => model.getSomeOtherData(parent, args, context)
   },
   SomeOtherType: {
