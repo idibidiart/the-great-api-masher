@@ -1,0 +1,13 @@
+{
+  "name": "json2gql",
+  "version": "0.0.1",
+  "description": "json 2 graphql",
+  "main": "index.js",
+  "author": "marc fawzi",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "graphql": "^0.13.0",
+    "graphql-schema-from-json": "^0.0.3"
+  }
+}
