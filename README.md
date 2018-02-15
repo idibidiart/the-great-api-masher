@@ -48,7 +48,7 @@ While the API layer and the database schema/queries should be defined in such a 
 
 - Single Responsibility Principle (SRP) must be preserved in Type Resolvers (aka Controllers) by limiting interactions with the backend to a single API call per resolver and letting GraphQL perform the composition of the query's return type by following the resolver dependency chain. This way we can keep the composition declarative. Treating output from queries as all or nothing eliminates the requirement for complex exception handling.
 
-- When multiple queries to the same API (or APIs) need to be processed in the sequence they were sent in, e.g. multiple queries from an autocomplete text box where the query results could come back out-of-order with respect to the HTTP requests,  GraphQL doesn't have a built-in way to handle that. Therefore, we would need to rely on the presence of temporal markers, e.g. automatically inserted time stamp in each HTTP request (via context), so if the Client receives multiple results from the same API that are out of order it can ignore any result with timestamp that is smaller than one it has received already. Similarly, other temporal logic maybe implemented by injecting unqiue (or sequential) values in the request, and passing them via context (`timeStamp` is injected by default by the server.) See "someQuery" in the example query at bottom of this page. 
+- When multiple queries to the same API (or APIs) need to be processed in the sequence they were sent in, e.g. multiple queries from an autocomplete text box where the query results could come back out-of-order with respect to the HTTP requests,  GraphQL doesn't have a built-in way to handle that. Therefore, we would need to rely on the presence of request-response mapping, e.g. isert __state_uuid in each request  (and make it available in the resolver context) so if the client receives multiple results from the same API that are out of order it can use the __state_uuid to filer for response that matches the current state of the autocomplete. 
 
 -  If the API response can be interpreted differently by different clients that's a problem. Inferring a definite state in extra fields in the query output eliminates that problem. In other words if state needs to be "inferred" from API response, it should be done derived using extra fields in query's return type, where normally the client would have to infer state (based on presence/absence of certain fields or other types of inference) This is a feature of GraphQL that allows us to augment the API response to eliminate the need to infer or derive state in the client, which along with the ability to describe data-flow processes declaratively, allows us to keep our client as a thin I/O layer (aside from client-specific logic for UI component animation and validation.)
 
@@ -410,7 +410,7 @@ type Legend {
 {
   someQuery {
     abc (someInput:"some string")
-    timeStamp
+    __uuid  # not yet implemented
     xyz {
       test
       anotherTest {
@@ -458,7 +458,7 @@ type Legend {
   "data": {
     "someQuery": {
       "abc": "some autocompletion of some string",
-      "timeStamp": "1518233840275",
+      "__uuid": "6eghwudf7iy3idhgs8o9s89ds89f9gghgh",
       "xyz": {
         "test": "some test xyz",
         "anotherTest": {

@@ -76,7 +76,7 @@ const server = new GraphQLServer({
   resolvers: allResolvers,
   context: req => ({
     ...req,
-    timeStamp: Date.now()
+    __timeStamp: Date.now()
   }),
 })
 
