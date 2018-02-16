@@ -38,7 +38,7 @@ __The other great benefit of using the declarative power of GraphQL, besides eli
 
 ## Maintaining Application Correctness   
 
-While the API and the persistence layer should be designed in such a way as to guarantee consistent reads and writes for each set of related data, e.g. by using domain Aggregates (where distributed transactions can be avoided and all reads and writes from/to a set of related data can happen within a single database transaction boundary, with the appropriate isolation level), having a client asynchronously fetch the related mutable data (e.g. some parent entity and its children) more than once is not handled in anyway by GraphQL as far as guaranteeing correct application behavior. Moreover, if different clients, e.g mobile vs desktop vs xbox, infer state from the API differently, then some of them may break following changes in the API. 
+While the API and the persistence layer should be designed in such a way as to guarantee consistent reads and writes for each set of related data, e.g. by using domain Aggregates (where distributed transactions can be avoided and all reads and writes from/to a set of related data can happen within a single database transaction boundary, with the appropriate isolation level), having a client asynchronously call the same API endpoint more than once, in rapid sequence and with different input, is not handled in anyway by GraphQL when it comes to guaranteeing correct application behavior. Moreover, if different clients, e.g mobile vs desktop vs xbox, infer state from the API differently, then some of them may break following changes in the API. 
 
 In general the following are good rules to follow:
 
