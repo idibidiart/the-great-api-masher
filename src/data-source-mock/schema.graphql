@@ -7,7 +7,7 @@ type Query {
 
 type SomeType {
   abc (someInput: String!): String
-  __uuid: String
+  uuid (val: String): String
   xyz: SomeOtherType
 }
 

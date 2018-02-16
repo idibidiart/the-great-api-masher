@@ -74,10 +74,12 @@ const allResolvers = mergeObjects(resolvers, XKCDResolvers, NumbersResolvers, Mo
 const server = new GraphQLServer({
   typeDefs: './src/generated/app.graphql',
   resolvers: allResolvers,
-  context: req => ({
+  context: req => {
+    return {
     ...req,
     __timeStamp: Date.now()
-  }),
+  }
+},
 })
 
 server.start(() => console.log('Server is running on http://localhost:4000'))

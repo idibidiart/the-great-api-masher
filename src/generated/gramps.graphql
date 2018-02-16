@@ -39,7 +39,7 @@ type SomeOtherType {
 
 type SomeType {
   abc(someInput: String!): String
-  timeStamp: String
+  uuid(val: String): String
   xyz: SomeOtherType
 }
 
