@@ -408,7 +408,7 @@ type Legend {
 {
   someQuery {
     abc (someInput:"some string")
-    __uuid  # not yet implemented
+    uuid(val: "6eghwudf7iy3idhgs8o9s89ds89f9gghgh")
     xyz {
       test
       anotherTest {
@@ -456,7 +456,7 @@ type Legend {
   "data": {
     "someQuery": {
       "abc": "some autocompletion of some string",
-      "__uuid": "6eghwudf7iy3idhgs8o9s89ds89f9gghgh",
+      "uuid": "6eghwudf7iy3idhgs8o9s89ds89f9gghgh",
       "xyz": {
         "test": "some test xyz",
         "anotherTest": {
