@@ -42,7 +42,7 @@ While the API and the persistence layer should be designed in such a way as to g
 
 In general the following are good rules to follow:
 
-- There should be no attempt to perform distributed transactions via GraphQL (instead use Aggregates on the backend to avoid distributed transactions when dealing with one database and perform related mutations/queries within a single database transaction boundary, using the appropriate transaction isolation level, e.g. strict serializable for writes and snapshot isolation for reads) If a distributed transaction involves multiple systems, a transaction management API should be created that manages the distributed transaction.  
+- There should be no attempt to perform distributed transactions via GraphQL (instead use Aggregates on the backend to avoid distributed transactions when dealing with one database and perform related mutations/queries within a single database transaction boundary, using the appropriate transaction isolation level, e.g. strict serializable for writes and snapshot isolation for reads) If a distributed transaction involves multiple systems, or is long running, a transaction management layer should be created that manages such distributed transactions.  
 
 - Single Responsibility Principle (SRP) must be preserved in Type Resolvers (aka Controllers) by limiting interactions with the backend to a single API call per resolver and letting GraphQL perform the composition of the query's return type by following the resolver dependency chain. This way we can keep the composition declarative. Treating output from queries as all or nothing eliminates the requirement for async exception handling that would otherwise have to be coordinated across resolvers.
 
