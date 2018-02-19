@@ -18,7 +18,7 @@ In the example below, you see that istead of four (4) requests between UI and RE
 
 ### Note:
 
-To ensure correct application behavior, and specifically, guaranteeing consistent reads and writes of a set of related data in the presence of concurrency and shared mutable state, the APIs must leverage the database to provide the level of transactional isolation required during orchestration and aggregation of any set of related data, e.g. using domain Aggregates (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) 
+To ensure correct application behavior, and specifically, guaranteeing consistent reads and writes for any given set of related data, in the presence of both concurrency and shared mutable state, the APIs must leverage the database to provide the level of transactional isolation required during orchestration and aggregation, using, e.g. the domain Aggregates pattern (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) 
 
 .
 
@@ -38,11 +38,11 @@ __The other great benefit of using the declarative power of GraphQL, besides eli
 
 ## Guaranteeing Application Correctness   
 
-While the API and the persistence layer should be designed in such a way as to guarantee consistent reads and writes for each set of related data, e.g. by using domain Aggregates (where distributed transactions can be avoided and all reads and writes from/to a set of related data can happen within a single database transaction boundary, with the appropriate isolation level), having a client asynchronously call the same API endpoint more than once, in rapid sequence and with different input, is not handled in anyway by GraphQL when it comes to assuring correct application behavior. Moreover, if different clients, e.g mobile vs desktop vs xbox, infer state from the API differently, then some of them may break following changes in the API. 
+While the API and the persistence layer should be designed in such a way as to guarantee consistent reads and writes for each set of related data, e.g. by using domain Aggregates when the transaction executes in one database (so that distributed transactions can be avoided and all reads and writes from/to a set of related data can happen within a single database transaction with the appropriate isolation level), having a client asynchronously call the same API endpoint more than once, in rapid sequence and with different input, is not handled in anyway by GraphQL when it comes to assuring correct application behavior. Moreover, if different clients, e.g mobile vs desktop vs xbox, infer state from the API differently, then some of them may break following changes in the API. 
 
 In general the following are good rules to follow:
 
-- There should be no attempt to perform distributed transactions via GraphQL (instead use Aggregates on the backend to avoid distributed transactions and perform related mutations/queries within a single database transaction boundary, using the appropriate transaction isolation level, e.g. strict serializable for writes and snapshot isolation for reads) If a distributed transaction is needed, an API must be created that manages the distributed transaction, using the persistence layer's native query capabilities and 2PC etc.  
+- There should be no attempt to perform distributed transactions via GraphQL (instead use Aggregates on the backend to avoid distributed transactions when dealing with one database and perform related mutations/queries within a single database transaction boundary, using the appropriate transaction isolation level, e.g. strict serializable for writes and snapshot isolation for reads) If a distributed transaction involves multiple systems, a transaction management API should be created that manages the distributed transaction.  
 
 - Single Responsibility Principle (SRP) must be preserved in Type Resolvers (aka Controllers) by limiting interactions with the backend to a single API call per resolver and letting GraphQL perform the composition of the query's return type by following the resolver dependency chain. This way we can keep the composition declarative. Treating output from queries as all or nothing eliminates the requirement for async exception handling that would otherwise have to be coordinated across resolvers.
 
