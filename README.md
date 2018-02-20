@@ -44,14 +44,17 @@ In general the following are good rules to follow:
 
 - There should be no attempt to perform distributed transactions via GraphQL (instead use Aggregates on the backend to avoid distributed transactions when dealing with one database and perform related mutations/queries within a single database transaction boundary, using the appropriate transaction isolation level, e.g. strict serializable for writes and snapshot isolation for reads) If a distributed transaction involves multiple systems, or is long running, a transaction management layer should be created that manages such distributed transactions.  
 
-- Single Responsibility Principle (SRP) must be preserved in Type Resolvers (aka Controllers) by limiting interactions with the backend to a single API call per resolver invocation and letting GraphQL perform the composition of the query's return type by following the resolver dependency chain. This way we can keep the composition declarative. Treating output from queries as all or nothing eliminates the requirement for async exception handling that would otherwise have to be coordinated across resolvers.
-
 - When multiple queries to the same API (or APIs) need to be processed in the in sync with UI state, e.g. multiple queries from an autocomplete text box where the query results could come back out-of-order with respect to the HTTP requests,  GraphQL doesn't have a built-in way to handle that. Therefore, we would need to rely on the presence of request-response mapping, e.g. add a 'uuid(val: String) : String' field in each query so if the client receives multiple results from the same API that are out of order it can use the uuid field in the query result (which reflects the input val) to filter for the response that matches the current state of the autocomplete. 
 
 -  If the API response can be interpreted differently by different clients that's a problem. Inferring a definite state in extra fields in the query output eliminates that problem. In other words if state needs to be "inferred" from API response, it should be done derived using extra fields in query's return type, where normally the client would have to infer state (based on presence/absence of certain fields or other types of inference) This is a feature of GraphQL that allows us to augment the API response to eliminate the need to infer or derive state in the client, which along with the ability to describe data-flow processes declaratively, allows us to keep our client as a thin I/O layer (aside from client-specific logic for visual and input state.)
 
-- To avoid N+1 query proliferation when resolving sub-types in a list type, e.g. get the user's Friends and the name of each of the Friends, we may use batched resolution, via e.g. graphql-resolve-batch. In this case, the API for Friends must support batched input. 
+## Maintaining Declarative Composition
 
+- Single Responsibility Principle (SRP) must be preserved in Type Resolvers (aka Controllers) by limiting interactions with the backend to a single API call per resolver invocation and letting GraphQL perform the composition of the returned types by following the resolver dependency chain. This way we can keep the composition declarative.
+
+## Query Performance
+
+- To avoid N+1 query proliferation when resolving sub-types in a list type, e.g. get the user's Friends and the name of each of the Friends, we may use batched resolution, via e.g. graphql-resolve-batch. In this case, the API for Friends must support batched input.  
 
 ## Examples of Existing REST APIs (and Mock APIs) and their GraphQL Schema
 
