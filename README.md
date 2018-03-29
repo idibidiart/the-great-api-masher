@@ -15,13 +15,13 @@ Transactional Correctness
 
 In the example below, you can see how use GraphQL to program data flow and business logic in a declarative layer outside the UI. This means that instead of having many requests between UI and backend, we have just one request. This increases page responsiveness greatly and may be done for the whole page or on per-component basis. It makes it possible to get all the data we need for a given page (or component) in a directly consumable manner, including derived state, with just one request, which dramatically reduces page load time and increases rendering performance, not to mention providing a much lighter, decoupled UI architecture that is much easier to evolve.
 
-### Transactional Correctness
-To ensure correct application behavior and guarantee consistent reads and writes for a given set of related data, the backend APIs must leverage the right database technology to provide the level of transactional isolation required for the application. In addition, we must use an API design pattern that guarantees read/write consistency. The main reason for this is that Eventually Consistent backends put the burden on the front-end developer to prevent incorrect application behavior that results from an inconsistent state on the backend. One good way we found to solve the consistency problem is to use the domain Aggregates pattern (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates))
-
 .
 
 ![image](https://image.ibb.co/fK0Oi7/Untitled_Diagram_54.png)
 
+
+### Transactional Correctness
+To ensure correct application behavior and guarantee consistent reads and writes for a given set of related data, the backend APIs must leverage the right database technology to provide the level of transactional isolation required for the application. In addition, we must use an API design pattern that guarantees read/write consistency. The main reason for this is that Eventually Consistent backends put the burden on the front-end developer to prevent incorrect application behavior that results from an inconsistent state on the backend. One good way we found to solve the consistency problem is to use the domain Aggregates pattern (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates))
 
 ## Accomplished Goals (so far)
 
@@ -31,7 +31,7 @@ To ensure correct application behavior and guarantee consistent reads and writes
 
 - Enable remixing of the GraphQL types (including queries and mutations) from the merged data source schemas into new GraphQL types to produce client-specific schema. This includes the ability to compose higher-order types to query data from various sources with one request and the ability to derive state based on some field in the query/mutation result, and represent the derived state in a sibling field, using declarative syntax. This removes the need for imperatively hardcoding common data-flow processes in the mid-tier and/or (as is often the case) in the UI. It means the UI becomes be a pure projection of persisted/derived state on the server (aside from client-specific logic for UI component animation and validation), and a thin I/O layer. 
 
-## Guaranteeing Application Correctness   
+## GraphQL & Application Correctness   
 
 While the API and the persistence layer should be designed in such a way as to guarantee consistent reads and writes for each set of related data, e.g. by using domain Aggregates when the transaction executes in one database (so that distributed transactions can be avoided and all reads and writes from/to a set of related data can happen within a single database transaction with the appropriate isolation level), having a client asynchronously call the same API endpoint more than once, in rapid sequence and with different input, is not handled in anyway by GraphQL when it comes to assuring correct application behavior. Moreover, if different clients, e.g mobile vs desktop vs xbox, infer state from the API differently, then some of them may break following changes in the API. 
 
