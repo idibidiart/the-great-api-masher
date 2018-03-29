@@ -6,25 +6,22 @@ Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL
 
 ## Agile Architecture
 
-Our proposal is to make UI development more agile by leveraging GraphQL, an open source spec with NodeJS, Java and other implementations. It allows us to program data flow and business domain logic using a _declarative_ paradigm that is centered around our domain model and entity types. By keeping data flow and business logic outside the UI, in a declarative layer, we may keep the UI as a simple, thin I/O layer, with stateful behaviors localized within UI components solely for the purpose of consuming user input and rendering the output. 
+Out Philosophy is to focus on the essential complexity of the UX challenge while at the same time reducing incidental complexity (complexity that is not essential to the UX.)
 
-The philosophy we employ is to focus on the essential _complexity_ of the UX challenge while at the same time reducing _incidental_ complexity (complexity that is not essential to the UX.)
+Toward that end, our proposal is to make UI development more agile by leveraging the declarative paradigm of GraphQL, an open source spec with NodeJS, Java and other implementations, that allows us to specify the data flow and business domain logic outside the UI and in flexible, easy to change way. By keeping the data flow and business logic outside the UI, in a declarative layer, we may keep the UI as a simple, thin I/O layer, with dynamic behaviors localized within UI components solely for the purpose of enabling user interaction and rendering the output.
 
-In the example below, you can see how use GraphQL to program data flow and business logic in a declarative layer outside the UI. This means that instead of having many requests between UI and backend, we have just one request. This increases page responsiveness greatly and may be done for the whole page or on per-component basis. It makes getting all the data we need for a given page (or component) in directly consumable manner, including derived state, with just one request, which darmatically reduces page load time and increases rendering performance. 
+The other great benefit of using the declarative paradigm of GraphQL, besides eliminating the data-flow and business logic from the UI, is to eliminate the blocking dependency the frontend team often has on the backend team (the endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones only to aggregate data, simply go away with GraphQL.
+Transactional Correctness
 
-This helps us build a cleaner, leaner UI codebase as well as avoid the usual hard-coding of data flow and business logic in the UI and/or mid-tier.
+In the example below, you can see how use GraphQL to program data flow and business logic in a declarative layer outside the UI. This means that instead of having many requests between UI and backend, we have just one request. This increases page responsiveness greatly and may be done for the whole page or on per-component basis. It makes it possible to get all the data we need for a given page (or component) in a directly consumable manner, including derived state, with just one request, which dramatically reduces page load time and increases rendering performance, not to mention providing a much lighter, decoupled UI architecture that is much easier to evolve.
 
 ### Transactional Correctness
-
-To ensure correct application behavior and guarantee consistent reads and writes for a given set of related data, the backend APIs must leverage the right database technology to provide the level of transactional isolation required for the application. In addition, we must use an API design pattern that guarantees read/write consistency. The main reason for this is that Eventually Consistent backends put the burden on the front-end developer to prevent incorrect application behavior that results from an inconsistent state on the backend.  One good way we found to solve the consistency problem is to use the domain Aggregates pattern (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates)) 
+To ensure correct application behavior and guarantee consistent reads and writes for a given set of related data, the backend APIs must leverage the right database technology to provide the level of transactional isolation required for the application. In addition, we must use an API design pattern that guarantees read/write consistency. The main reason for this is that Eventually Consistent backends put the burden on the front-end developer to prevent incorrect application behavior that results from an inconsistent state on the backend. One good way we found to solve the consistency problem is to use the domain Aggregates pattern (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates))
 
 .
 
 ![image](https://image.ibb.co/fK0Oi7/Untitled_Diagram_54.png)
 
-...
-
-__The other great benefit of using the declarative, "Typed I/O" paradigm of GraphQL, besides eliminating the data-flow and business logic from the UI, is to eliminate the blocking dependency the frontend team often has on the backend team (the endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones only to aggregate data, simply go away with GraphQL)__
 
 ## Accomplished Goals (so far)
 
