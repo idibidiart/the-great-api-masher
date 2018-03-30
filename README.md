@@ -13,7 +13,7 @@ Our proposal is to make UI development more agile by leveraging the “Typed I/O
 The other great benefit of using the declarative paradigm of GraphQL, besides eliminating the data-flow and business logic from the UI, is to eliminate the blocking dependency the frontend team often has on the backend team (the endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones only to aggregate data, simply go away with GraphQL.
 Transactional Correctness
 
-In the example below, you can see how use GraphQL as a declarative data-flow programming layer. Instead of having many requests between UI and backend, we have just one request. This increases page responsiveness greatly and can be done for the whole page or on per-component basis. It makes it possible to get all the data we need for a given page (or component) in a directly consumable manner, including derived state, with just one request, which dramatically reduces page load time and increases rendering performance, not to mention providing a much lighter, decoupled UI architecture that is much easier to evolve.
+In the example below, you can see how use GraphQL as a declarative data-flow programming layer. Instead of having many requests between UI and backend, we have just one request. This increases page responsiveness greatly and can be done for the whole page or on per-component basis. It makes it possible to get all the data we need for a given page (or component) in a directly consumable manner, including [derived state](#derived-state), with just one request, which dramatically reduces page load time and increases rendering performance, not to mention providing a much lighter, decoupled UI architecture that is much easier to evolve.
 
 .
 
@@ -41,7 +41,7 @@ In general the following are good rules to follow:
 
 - When multiple queries to the same API (or APIs) need to be processed in the in sync with UI state, e.g. multiple queries from an autocomplete text box where the query results could come back out-of-order with respect to the HTTP requests,  GraphQL doesn't have a built-in way to handle that. Therefore, we would need to rely on the presence of request-response mapping, e.g. add a 'uuid(val: String) : String' field in each query so if the client receives multiple results from the same API that are out of order it can use the uuid field in the query result (which reflects the input val) to filter for the response that matches the current state of the autocomplete. 
 
--  If the API response can be interpreted differently by different clients that's a problem. Inferring a definite state in extra fields in the query output eliminates that problem. In other words if state needs to be "inferred" from API response, it should be done derived using extra fields in query's return type, where normally the client would have to infer state (based on presence/absence of certain fields or other types of inference) This is a feature of GraphQL that allows us to augment the API response to eliminate the need to infer or derive state in the client, which along with the ability to describe data-flow processes declaratively, allows us to keep our client as a thin I/O layer (aside from client-specific logic for visual and input state.)
+-  If the API response can be interpreted differently by different clients that's a problem. Inferring a definite state in extra fields in the query output eliminates that problem. In other words if state needs to be "inferred" from API response, it should be done using extra fields in query's return type, where normally the client would have to infer state (based on presence/absence of certain fields or other types of inference) This is a feature of GraphQL that allows us to augment the API response to eliminate the need to infer or derive state in the client, which along with the ability to describe data-flow processes declaratively, allows us to keep our client as a thin I/O layer (aside from client-specific logic for visual and input state.)
 
 ## Maintaining Declarative Composition
 
@@ -372,7 +372,7 @@ type Legend {
     trivia: {
       
       /* reselect a field and its descendants from parent that this field depends on, 
-      using fragment. This is also how we can implement derived state. */
+      using fragment. This is also how we can implement #derived state. */
       
       fragment: `fragment ComicFragment on ComicAndTrivia { comic { day month } }`,
       resolve: async (parent, args, ctx: Context, info) => {
