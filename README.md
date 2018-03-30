@@ -370,8 +370,10 @@ type Legend {
   },
   ComicAndTrivia: {
     trivia: {
+      
       /* reselect a field and its descendants from parent that this field depends on, 
-      using fragment */
+      using fragment. This is also how we can implement derived state. */
+      
       fragment: `fragment ComicFragment on ComicAndTrivia { comic { day month } }`,
       resolve: async (parent, args, ctx: Context, info) => {
          const {day, month} = parent.comic
