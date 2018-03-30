@@ -13,11 +13,11 @@ Our proposal is to make UI development more agile by leveraging the “Typed I/O
 The other great benefit of using the declarative paradigm of GraphQL, besides eliminating the data-flow and business logic from the UI, is to eliminate the blocking dependency the frontend team often has on the backend team (the endless requests to tweak existing APIs to work better for a particular client, e.g. mobile, or build new APIs on top of existing ones only to aggregate data, simply go away with GraphQL.
 Transactional Correctness
 
-In the example below, you can see how use GraphQL to program data flow and business logic in a declarative layer outside the UI. This means that instead of having many requests between UI and backend, we have just one request. This increases page responsiveness greatly and may be done for the whole page or on per-component basis. It makes it possible to get all the data we need for a given page (or component) in a directly consumable manner, including derived state, with just one request, which dramatically reduces page load time and increases rendering performance, not to mention providing a much lighter, decoupled UI architecture that is much easier to evolve.
+In the example below, you can see how use GraphQL as a declarative data-flow programming layer. Instead of having many requests between UI and backend, we have just one request. This increases page responsiveness greatly and can be done for the whole page or on per-component basis. It makes it possible to get all the data we need for a given page (or component) in a directly consumable manner, including derived state, with just one request, which dramatically reduces page load time and increases rendering performance, not to mention providing a much lighter, decoupled UI architecture that is much easier to evolve.
 
 .
 
-![image](https://image.ibb.co/fK0Oi7/Untitled_Diagram_54.png)
+![image](https://image.ibb.co/gTZJ77/Screen_Shot_2018_03_30_at_8_25_50_AM.png)
 
 
 ### Transactional Correctness
