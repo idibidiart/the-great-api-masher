@@ -18,7 +18,7 @@ As we can see in the example below, instead of having many requests between UI a
 
 
 ### Application Correctness
-To ensure correct application behavior and guarantee consistent reads and updates for a given set of related data, the backend APIs must leverage ACID guarantees in the database. In addition, we must use an API design pattern that guarantees consistent reads and uodates. The main reason for this is that Eventually Consistent backends put the burden on the developer to prevent incorrect application behavior that results from an inconsistent state on the backend. One good way we found to solve the consistency problem is to use the domain Aggregates pattern (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates))
+To ensure correct application behavior and guarantee consistent reads and updates for a given set of related data, the backend APIs must leverage ACID guarantees in the database. In addition, we must use an API design pattern that guarantees consistent reads and updates. The main reason for this is that Eventually Consistent backends put the burden on the developer to prevent incorrect application behavior that results from an inconsistent state on the backend. One good way we found to solve the consistency problem is to use the domain Aggregates pattern (see: [Developing Microservices with Aggregates](https://www.slideshare.net/SpringCentral/developing-microservices-with-aggregates))
 
 ## Accomplished Goals (so far)
 
