@@ -2,7 +2,7 @@
 
 Proof-of-Concept (PoC) for Remixing REST APIs with GraphQL
 
-![pf](https://image.ibb.co/g8dP8x/1_wl_Xf8_Uu_VWLJt_DDXqo_P1_Tr_Q.png)
+![gql](https://image.ibb.co/nBXCXT/1_wl_Xf8_Uu_VWLJt_DDXqo_P1_Tr_Q.png)
 
 ## Agile Architecture
 
